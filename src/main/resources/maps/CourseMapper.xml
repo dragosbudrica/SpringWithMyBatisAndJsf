@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ro.kepler.rominfo.mapper.CourseMapper">
+
+    <resultMap type="Course" id="CourseResult">
+        <id property="courseCode" column="CourseCode"/>
+        <result property="courseName" column="CourseName"/>
+        <result property="category" column="Category"/>
+        <collection property="students" ofType="Student" resultMap="StudentResult"></collection>
+    </resultMap>
+
+    <resultMap type="Student" id="StudentResult">
+        <id property="studentId" column="StudentId"/>
+        <result property="firstName" column="FirstName"/>
+        <result property="lastName" column="LastName"/>
+    </resultMap>
+
+    <select id="getCourseByCode" parameterType="int" resultMap="CourseResult">
+        SELECT
+        c."CourseCode" as courseCode, c."CourseName" AS courseName, c."Category" AS category,
+        s."StudentId" AS studentId, s."FirstName" AS firstName, s."LastName" AS lastName
+        FROM public."Course" c left outer join public."Student" s
+        ON c."CourseCode"=s."CourseCode"
+        WHERE c."CourseCode"=#{courseCode}
+    </select>
+
+    <select id="getAllCourses" resultMap="CourseResult">
+        SELECT
+        c."CourseCode" as courseCode, c."CourseName" AS courseName, c."Category" AS category,
+        s."StudentId" AS studentId, s."FirstName" AS firstName, s."LastName" AS lastName
+        FROM public."Course" c left outer join public."Student" s
+        ON c."CourseCode"=s."CourseCode"
+    </select>
+
+</mapper>
