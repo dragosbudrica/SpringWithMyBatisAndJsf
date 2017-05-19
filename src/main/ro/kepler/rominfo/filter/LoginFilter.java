@@ -7,7 +7,7 @@ package ro.kepler.rominfo.filter;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import ro.kepler.rominfo.controller.StudentHandler;
+import ro.kepler.rominfo.controller.LoginHandler;
 
 import java.io.IOException;
 
@@ -36,7 +36,7 @@ public class LoginFilter implements Filter {
         HttpServletResponse httpServletResponse = (HttpServletResponse) servletResponse;
 
         // managed bean name is exactly the session attribute name
-        StudentHandler studentHandler = (StudentHandler) httpServletRequest
+        LoginHandler studentHandler = (LoginHandler) httpServletRequest
                 .getSession().getAttribute("studentHandler");
 
         if (studentHandler != null) {

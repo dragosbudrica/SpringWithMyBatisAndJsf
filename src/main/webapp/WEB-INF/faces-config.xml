@@ -11,16 +11,28 @@
     </application>
 
     <managed-bean>
-        <managed-bean-name>studentHandler</managed-bean-name>
-        <managed-bean-class>ro.kepler.rominfo.controller.StudentHandler</managed-bean-class>
+        <managed-bean-name>loginHandler</managed-bean-name>
+        <managed-bean-class>ro.kepler.rominfo.controller.LoginHandler</managed-bean-class>
         <managed-bean-scope>session</managed-bean-scope>
     </managed-bean>
 
+    <managed-bean>
+        <managed-bean-name>registerHandler</managed-bean-name>
+        <managed-bean-class>ro.kepler.rominfo.controller.RegisterHandler</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
+    </managed-bean>
+
   <managed-bean>
-    <managed-bean-name>studentDto</managed-bean-name>
-    <managed-bean-class>ro.kepler.rominfo.dto.StudentDto</managed-bean-class>
+    <managed-bean-name>loginDto</managed-bean-name>
+    <managed-bean-class>ro.kepler.rominfo.dto.LoginDto</managed-bean-class>
     <managed-bean-scope>request</managed-bean-scope>
 </managed-bean>
+
+    <managed-bean>
+        <managed-bean-name>registerDto</managed-bean-name>
+        <managed-bean-class>ro.kepler.rominfo.dto.RegisterDto</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
+    </managed-bean>
 
   <!--  <navigation-rule>
         <description>login user</description>
@@ -36,7 +48,7 @@
             <from-outcome>unsuccess</from-outcome>
             <to-view-id>/error.xhtml</to-view-id>
         </navigation-case>
-    </navigation-rule> -->
+    </navigation-rule>
 
     <navigation-rule>
         <description>register new user</description>
@@ -51,5 +63,5 @@
             <from-outcome>unsuccess</from-outcome>
             <to-view-id>/unsuccess.xhtml</to-view-id>
         </navigation-case>
-    </navigation-rule>
+    </navigation-rule> -->
 </faces-config>
