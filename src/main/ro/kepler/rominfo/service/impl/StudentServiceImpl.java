@@ -2,8 +2,9 @@ package ro.kepler.rominfo.service.impl;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ro.kepler.rominfo.dto.LoginDto;
+import ro.kepler.rominfo.dto.RegisterDto;
 import ro.kepler.rominfo.mapper.StudentMapper;
-import ro.kepler.rominfo.dto.StudentDto;
 import ro.kepler.rominfo.model.Student;
 import ro.kepler.rominfo.service.StudentService;
 
@@ -20,23 +21,23 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Transactional
-    public void addStudent(StudentDto studentDto) {
+    public void addStudent(RegisterDto registerDto) {
        Student student = new Student();
-       student.setFirstName(studentDto.getFirstName());
-       student.setLastName(studentDto.getLastName());
-       student.setSsn(studentDto.getSsn());
-       student.setEmail(studentDto.getEmail());
-       student.setPassword(studentDto.getPassword());
+       student.setFirstName(registerDto.getFirstName());
+       student.setLastName(registerDto.getLastName());
+       student.setSsn(registerDto.getSsn());
+       student.setEmail(registerDto.getEmail());
+       student.setPassword(registerDto.getPassword());
         studentMapper.addStudent(student);
     }
 
-    public Student find(StudentDto studentDto) {
-        return studentMapper.findByEmail(studentDto.getEmail());
+    public Student find(String email) {
+        return studentMapper.findByEmail(email);
     }
 
-    public boolean isValid(StudentDto studentDto) {
-        Student student = studentMapper.findByEmail(studentDto.getEmail());
-        if(student.getEmail().equals(studentDto.getEmail()))
+    public boolean isValid(LoginDto loginDto) {
+        Student student = studentMapper.findByEmail(loginDto.getEmail());
+        if(student.getEmail().equals(loginDto.getEmail()))
             return true;
         else
             return false;

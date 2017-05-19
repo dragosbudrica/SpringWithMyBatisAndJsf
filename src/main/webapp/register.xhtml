@@ -3,54 +3,58 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core">
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
 
 <h:head>
     <title>Registration Page</title>
 </h:head>
 <h:body>
-    <f:view>
-        <h:form id="registerForm">
-            <table>
-                <tr>
-                    <td><h:outputText value="Enter Your First Name:" /></td>
-                    <td><h:inputText id="firstName" value="#{studentDto.firstName}"
-                                     required="true" requiredMessage="Please enter your first name" /></td>
-                    <td><h:message for="firstName" style="color:red" /></td>
-                </tr>
-                <tr>
-                    <td><h:outputText value="Enter Your Last Name:" /></td>
-                    <td><h:inputText id="lastName" value="#{studentDto.lastName}"
-                                     required="true" requiredMessage="Please enter your last name" /></td>
-                    <td><h:message for="lastName" style="color:red" /></td>
-                </tr>
-                <tr>
-                    <td><h:outputText value="Enter Your SSN:" /></td>
-                    <td><h:inputText id="ssn" value="#{studentDto.ssn}"
-                                     required="true" requiredMessage="Please enter your ssn" /></td>
-                    <td><h:message for="ssn" style="color:red" /></td>
-                </tr>
-                <tr>
-                    <td><h:outputText value="Enter Your email ID:" /></td>
-                    <td><h:inputText id="email" value="#{studentDto.email}"
-                                     required="true" requiredMessage="Please enter your email address" /></td>
-                    <td><h:message for="email" style="color:red" /></td>
-                </tr>
-                <tr>
-                    <td><h:outputText value="Enter Password :" /></td>
-                    <td><h:inputSecret id="password" value="#{studentDto.password}"
-                                       required="true" requiredMessage="Please enter your password" /></td>
-                    <td><h:message for="password" style="color:red" /></td>
-                </tr>
-                <tr>
-                    <td />
-                    <td><h:commandButton value="Register" action="#{studentHandler.register(studentDto)}" /></td>
-                </tr>
-                <tr>
-                    <td><h:outputLink value="home.xhtml">Home</h:outputLink></td>
-                </tr>
-            </table>
-        </h:form>
-    </f:view>
+    <h:form id="registerForm">
+        <p:messages id="messages" showDetail="false"/>
+        <p:panel id="panel" header="Register">
+            <h:panelGrid columns="3" cellpadding="5">
+                <p:outputLabel for="firstName" value="First Name:"/>
+                <p:inputText id="firstName" value="#{registerDto.firstName}"
+                             required="true" label="First name">
+                    <f:validateLength minimum="3"/>
+                </p:inputText>
+                <p:message for="firstName" display="icon"/>
+
+                <p:outputLabel for="lastName" value="Last Name:"/>
+                <p:inputText id="lastName" value="#{registerDto.lastName}"
+                             required="true" label="Last name">
+                    <f:validateLength minimum="3"/>
+                </p:inputText>
+                <p:message for="lastName" display="icon"/>
+
+                <p:outputLabel for="ssn" value="SSN:"/>
+                <p:inputText id="ssn" value="#{registerDto.ssn}"
+                             required="true" label="SSN">
+                    <f:validateLength minimum="3"/>
+                </p:inputText>
+                <p:message for="ssn" display="icon"/>
+
+                <p:outputLabel for="email" value="Email:"/>
+                <p:inputText id="email" value="#{registerDto.email}"
+                             required="true" label="Email">
+                    <f:validateLength minimum="3"/>
+                </p:inputText>
+                <p:message for="email" display="icon"/>
+
+                <p:outputLabel for="password" value="Password:"/>
+                <p:password id="password"
+                            value="#{registerDto.password}" required="true"
+                            label="Password">
+                    <f:validateLength minimum="3"/>
+                </p:password>
+                <p:message for="password" display="icon"/>
+            </h:panelGrid>
+
+            <p:commandButton value="Register" update="panel messages"
+                             action="#{registerHandler.register(registerDto)}"/>
+
+        </p:panel>
+    </h:form>
 </h:body>
 </html>

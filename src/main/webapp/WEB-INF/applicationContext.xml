@@ -48,7 +48,11 @@
         <property name="studentMapper" ref="studentMapper" />
     </bean>
 
-    <bean id = "studentHandler" class = "ro.kepler.rominfo.controller.StudentHandler">
+    <bean id = "loginHandler" class = "ro.kepler.rominfo.controller.LoginHandler">
+        <property name="studentService" ref="studentService" />
+    </bean>
+
+    <bean id = "registerHandler" class = "ro.kepler.rominfo.controller.RegisterHandler">
         <property name="studentService" ref="studentService" />
     </bean>
 
