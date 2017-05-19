@@ -1,24 +1,12 @@
-package ro.kepler.rominfo.model;
-
-import java.util.ArrayList;
-import java.util.List;
+package ro.kepler.rominfo.dto;
 
 /**
- * Created by Dragos on 15.05.2017.
+ * Created by Dragos on 19.05.2017.
  */
-public class Course {
-    private Integer courseCode;
+public class CourseDto {
     private String courseName;
     private String category;
-    private  Professor professor;
-
-    public Integer getCourseCode() {
-        return courseCode;
-    }
-
-    public void setCourseCode(Integer courseCode) {
-        this.courseCode = courseCode;
-    }
+    private String professor;
 
     public String getCourseName() {
         return courseName;
@@ -36,11 +24,11 @@ public class Course {
         this.category = category;
     }
 
-    public Professor getProfessor() {
+    public String getProfessor() {
         return professor;
     }
 
-    public void setProfessor(Professor professor) {
+    public void setProfessor(String professor) {
         this.professor = professor;
     }
 }

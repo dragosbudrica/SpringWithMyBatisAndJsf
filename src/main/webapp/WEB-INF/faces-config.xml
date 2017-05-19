@@ -22,6 +22,12 @@
         <managed-bean-scope>request</managed-bean-scope>
     </managed-bean>
 
+    <managed-bean>
+        <managed-bean-name>courseHandler</managed-bean-name>
+        <managed-bean-class>ro.kepler.rominfo.controller.CourseHandler</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
+    </managed-bean>
+
   <managed-bean>
     <managed-bean-name>loginDto</managed-bean-name>
     <managed-bean-class>ro.kepler.rominfo.dto.LoginDto</managed-bean-class>
