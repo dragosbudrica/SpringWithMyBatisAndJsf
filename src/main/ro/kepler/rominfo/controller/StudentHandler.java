@@ -32,7 +32,11 @@ public class StudentHandler implements Serializable {
         this.studentService = studentService;
     }
 
-
+    /**
+     * Method that checks login based on studentDto
+     * @param studentDto studentDto consists of data came from the form
+     * @return
+     */
     public String login(StudentDto studentDto) {
         currentStudent = studentService.find(studentDto);
 
