@@ -30,7 +30,7 @@
 
     <insert id="addStudent" useGeneratedKeys="true"
             keyProperty="studentId">
-        insert into Student (firstName,lastName,ssn,email,password)
+        insert into student (firstName,lastName,ssn,email,password)
         values (#{firstName},#{lastName},#{ssn},#{email},#{password})
     </insert>
 

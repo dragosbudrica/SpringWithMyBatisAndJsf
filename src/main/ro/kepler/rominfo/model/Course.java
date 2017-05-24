@@ -12,6 +12,16 @@ public class Course {
     private String category;
     private  Professor professor;
 
+    private List<Student> students = new ArrayList<Student>();
+
+    public List<Student> getStudents() {
+        return students;
+    }
+
+    public void setStudents(List<Student> students) {
+        this.students = students;
+    }
+
     public Integer getCourseCode() {
         return courseCode;
     }

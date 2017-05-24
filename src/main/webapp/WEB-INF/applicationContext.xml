@@ -49,6 +49,11 @@
         <property name="sqlSessionFactory" ref="sqlSessionFactory" />
     </bean>
 
+    <bean id="enrollmentMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="mapperInterface" value="ro.kepler.rominfo.mapper.EnrollmentMapper" />
+        <property name="sqlSessionFactory" ref="sqlSessionFactory" />
+    </bean>
+
     <bean id = "courseService" class = "ro.kepler.rominfo.service.impl.CourseServiceImpl">
         <property name="courseMapper" ref="courseMapper" />
     </bean>
@@ -68,6 +73,17 @@
     <bean id = "courseHandler" class = "ro.kepler.rominfo.controller.CourseHandler">
         <property name="courseService" ref="courseService" />
     </bean>
+
+    <bean id = "enrollmentHandler" class = "ro.kepler.rominfo.controller.EnrollmentHandler">
+        <property name="studentService" ref="studentService" />
+        <property name="courseService" ref="courseService" />
+        <property name="enrollmentService" ref="enrollmentService" />
+    </bean>
+
+    <bean id="enrollmentService" class="ro.kepler.rominfo.service.impl.EnrollmentServiceImpl">
+        <property name="enrollmentMapper" ref="enrollmentMapper" />
+    </bean>
+
 
 
 </beans>

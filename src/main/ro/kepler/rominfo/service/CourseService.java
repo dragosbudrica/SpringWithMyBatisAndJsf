@@ -9,4 +9,5 @@ import java.util.List;
  */
 public interface CourseService {
     List<Course> getAllCourses();
+    Course find(String courseName);
 }

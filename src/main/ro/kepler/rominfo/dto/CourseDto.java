@@ -1,9 +1,11 @@
 package ro.kepler.rominfo.dto;
 
+import java.io.Serializable;
+
 /**
  * Created by Dragos on 19.05.2017.
  */
-public class CourseDto {
+public class CourseDto implements Serializable {
     private String courseName;
     private String category;
     private String professor;

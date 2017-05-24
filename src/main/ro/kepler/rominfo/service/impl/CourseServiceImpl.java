@@ -21,4 +21,8 @@ public class CourseServiceImpl implements CourseService {
         return courseMapper.getAllCourses();
     }
 
+    public Course find(String courseName) {
+        return courseMapper.getCourseByName(courseName);
+    }
+
 }

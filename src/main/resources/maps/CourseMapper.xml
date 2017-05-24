@@ -24,6 +24,13 @@
         WHERE c."coursecode"=#{courseCode}
     </select>
 
+    <select id="getCourseByName" parameterType="java.lang.String" resultMap="CourseResult">
+        SELECT
+        c."coursecode" as courseCode, c."coursename" AS courseName, c."category" AS category
+        FROM public."course" c
+        WHERE c."coursename"=#{courseName}
+    </select>
+
     <select id="getAllCourses" resultMap="CourseResult">
         SELECT
         c."coursecode" as courseCode, c."coursename" AS courseName, c."category" AS category,
