@@ -22,10 +22,28 @@
         <managed-bean-scope>request</managed-bean-scope>
     </managed-bean>
 
+    <managed-bean>
+        <managed-bean-name>courseHandler</managed-bean-name>
+        <managed-bean-class>ro.kepler.rominfo.controller.CourseHandler</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
+    </managed-bean>
+
+    <managed-bean>
+        <managed-bean-name>enrollmentHandler</managed-bean-name>
+        <managed-bean-class>ro.kepler.rominfo.controller.EnrollmentHandler</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
+    </managed-bean>
+
+    <managed-bean>
+        <managed-bean-name>courseSelection</managed-bean-name>
+        <managed-bean-class>ro.kepler.rominfo.controller.CourseSelection</managed-bean-class>
+        <managed-bean-scope>view</managed-bean-scope>
+    </managed-bean>
+
   <managed-bean>
     <managed-bean-name>loginDto</managed-bean-name>
     <managed-bean-class>ro.kepler.rominfo.dto.LoginDto</managed-bean-class>
-    <managed-bean-scope>request</managed-bean-scope>
+    <managed-bean-scope>session</managed-bean-scope>
 </managed-bean>
 
     <managed-bean>
@@ -34,13 +52,21 @@
         <managed-bean-scope>request</managed-bean-scope>
     </managed-bean>
 
+    <managed-bean>
+        <managed-bean-name>courseDto</managed-bean-name>
+        <managed-bean-class>ro.kepler.rominfo.dto.CourseDto</managed-bean-class>
+        <managed-bean-scope>view</managed-bean-scope>
+    </managed-bean>
+
+
+
   <!--  <navigation-rule>
         <description>login user</description>
         <from-view-id>/login.xhtml</from-view-id>
         <navigation-case>
             <from-action>#{studentHandler.login(studentDto)}</from-action>
             <from-outcome>home</from-outcome>
-            <to-view-id>/secured/home.xhtml</to-view-id>
+            <to-view-id>/secuviewAllCourses.xhtmlhtml</to-view-id>
         </navigation-case>
 
         <navigation-case>

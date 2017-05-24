@@ -1,41 +1,22 @@
 package ro.kepler.rominfo.model;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-
 /**
- * Created by Dragos on 15.05.2017.
+ * Created by Dragos on 19.05.2017.
  */
-public class Student implements Serializable {
-    private Integer studentId;
+public class Professor {
+    private Integer professorId;
     private String firstName;
     private String lastName;
-    private long ssn;
+    private String ssn;
     private String email;
     private String password;
 
-    private List<Course> courses = new ArrayList<Course>();
-
-    public int getStudentId() {
-        return studentId;
+    public Integer getProfessorId() {
+        return professorId;
     }
 
-    public void setStudentId(Integer studentId) {
-        this.studentId = studentId;
-    }
-
-    public List<Course> getCourses() {
-        return courses;
-    }
-
-    public void setCourses(List<Course> courses) {
-        this.courses = courses;
-    }
-
-    public void setStudentId(int studentId) {
-        this.studentId = studentId;
-
+    public void setProfessorId(Integer professorId) {
+        this.professorId = professorId;
     }
 
     public String getFirstName() {
@@ -54,11 +35,11 @@ public class Student implements Serializable {
         this.lastName = lastName;
     }
 
-    public long getSsn() {
+    public String getSsn() {
         return ssn;
     }
 
-    public void setSsn(long ssn) {
+    public void setSsn(String ssn) {
         this.ssn = ssn;
     }
 
@@ -76,5 +57,9 @@ public class Student implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getFullName() {
+        return firstName + " " + lastName;
     }
 }

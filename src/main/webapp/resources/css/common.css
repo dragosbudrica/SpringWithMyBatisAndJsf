@@ -1,0 +1,12 @@
+.ui-layout-unit.topbar {
+    padding: 0;
+}
+
+.ui-layout-unit.topbar > div {
+    background-color: black;
+    /*height: 40px;*/
+}
+
+.logo {
+    float: left;
+}

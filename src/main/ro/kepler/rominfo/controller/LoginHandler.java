@@ -26,7 +26,7 @@ public class LoginHandler implements Serializable {
 
     private static final Log LOGGER = LogFactory.getLog(LoginFilter.class);
 
-    public static final String HOME_PAGE_REDIRECT = "/secured/home.xhtml?faces-redirect=true";
+    public static final String HOME_PAGE_REDIRECT = "/secured/viewAllCourses.xhtml?faces-redirect=true";
     public static final String LOGOUT_PAGE_REDIRECT = "/logout.xhtml?faces-redirect=true";
 
     public void setStudentService(StudentService studentService) {

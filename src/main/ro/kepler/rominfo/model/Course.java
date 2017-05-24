@@ -10,6 +10,17 @@ public class Course {
     private Integer courseCode;
     private String courseName;
     private String category;
+    private  Professor professor;
+
+    private List<Student> students = new ArrayList<Student>();
+
+    public List<Student> getStudents() {
+        return students;
+    }
+
+    public void setStudents(List<Student> students) {
+        this.students = students;
+    }
 
     public Integer getCourseCode() {
         return courseCode;
@@ -33,5 +44,13 @@ public class Course {
 
     public void setCategory(String category) {
         this.category = category;
+    }
+
+    public Professor getProfessor() {
+        return professor;
+    }
+
+    public void setProfessor(Professor professor) {
+        this.professor = professor;
     }
 }

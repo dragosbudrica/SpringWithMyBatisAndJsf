@@ -8,5 +8,6 @@ import java.util.List;
 public interface CourseMapper {
     Course getCourseByCode(Integer courseCode);
     List<Course> getAllCourses();
+    Course getCourseByName(String courseName);
   //  void addCourse(Course course);
 }
