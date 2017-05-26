@@ -1,0 +1,51 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/templates/ui-template.xhtml">
+    <ui:define name="title">
+        <title>My Courses</title>
+    </ui:define>
+    <ui:define name="menu">
+        <h:form>
+            <p:outputPanel id="menuPanel" layout="block">
+                <p:menu autoSubmenuDisplay="true"
+                        style="width:213px;height:483px;border:none;font-size:small;padding:0px;"
+                        ajax="false" type="sliding" backLabel="#{msg['menu.back']}">
+                    <p:submenu label="Pages" icon="ui-icon ui-icon-refresh">
+                        <p:menuitem>
+                            <h:commandLink action="/secured/allCourses.xhtml?faces-redirect=true" value="All Courses"/>
+                        </p:menuitem>
+                        <p:menuitem>
+                            <h:commandLink action="/secured/calendar.xhtml?faces-redirect=true" value="Calendar"/>
+                        </p:menuitem>
+                    </p:submenu>
+                </p:menu>
+            </p:outputPanel>
+        </h:form>
+    </ui:define>
+    <ui:define name="content">
+        <h:form id="form">
+            <p:dataTable value="#{courseView.getMyCourses(loginView.email)}" var="courseDto">
+                <f:facet name="header">
+                    My Courses
+                </f:facet>
+                <p:column>
+                    <f:facet name="header">
+                        Course Name
+                    </f:facet>
+                    #{courseDto.courseName}
+                    <f:facet name="footer">
+                    </f:facet>
+                </p:column>
+                <p:column headerText="Category">
+                    #{courseDto.category}
+                </p:column>
+                <p:column headerText="Professor">
+                    #{courseDto.professor}
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </ui:define>
+</ui:composition>

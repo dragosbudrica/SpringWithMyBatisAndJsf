@@ -51,4 +51,19 @@ public class CourseView {
         }
         return courses;
     }
+
+    public List<CourseDto> getMyCourses(String email) {
+
+        List<Course> myCourses =  courseService.getMyCourses(email);
+        List<CourseDto> courses = new ArrayList<CourseDto>();
+
+        for (Course currentCourse : myCourses) {
+            CourseDto courseDto = new CourseDto();
+            courseDto.setCourseName(currentCourse.getCourseName());
+            courseDto.setCategory(currentCourse.getCategory());
+            courseDto.setProfessor(currentCourse.getProfessor().getFullName());
+            courses.add(courseDto);
+        }
+        return courses;
+    }
 }

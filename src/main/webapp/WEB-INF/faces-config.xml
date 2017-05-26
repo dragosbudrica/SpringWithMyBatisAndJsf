@@ -11,7 +11,14 @@
         <el-resolver>
             org.primefaces.application.exceptionhandler.PrimeExceptionHandlerELResolver
         </el-resolver>
+
+        <resource-bundle>
+            <base-name>messages</base-name>
+            <var>msg</var>
+        </resource-bundle>
     </application>
+
+
 
   <!--  <navigation-rule>
         <description>login user</description>

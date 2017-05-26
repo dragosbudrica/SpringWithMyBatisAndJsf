@@ -32,7 +32,7 @@ public class LoginView implements Serializable {
 
     private static final Log LOGGER = LogFactory.getLog(LoginFilter.class);
 
-    public static final String HOME_PAGE_REDIRECT = "/secured/viewAllCourses.xhtml?faces-redirect=true";
+    public static final String HOME_PAGE_REDIRECT = "/secured/allCourses.xhtml?faces-redirect=true";
     public static final String LOGOUT_PAGE_REDIRECT = "/logout.xhtml?faces-redirect=true";
 
     public void setStudentService(StudentService studentService) {
@@ -40,7 +40,7 @@ public class LoginView implements Serializable {
     }
 
     /**
-     * Method that checks login based on studentDto
+     * Method that checks login
      * @return
      */
     public String login() {

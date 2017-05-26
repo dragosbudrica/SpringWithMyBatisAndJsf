@@ -39,4 +39,18 @@
         ON p.professorId = c.professorId
     </select>
 
+    <select id="getMyCourses" resultMap="CourseResult">
+        SELECT
+        c."coursecode" as courseCode, c."coursename" AS courseName, c."category" AS category,
+        p."firstname" as prof_firstname, p."lastname" as prof_lastname, p."professorid" as prof_professorid
+        FROM public."course" c
+        INNER JOIN professor p
+        ON p.professorId = c.professorId
+        INNER JOIN enrollment e
+        ON c.coursecode = e.coursecode
+        INNER JOIN student s
+        ON e.studentid = s.studentid
+        WHERE s."studentid" = #{studentId}
+    </select>
+
 </mapper>
