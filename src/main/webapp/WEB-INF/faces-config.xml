@@ -8,55 +8,15 @@
 
     <application>
         <el-resolver>org.springframework.web.jsf.el.SpringBeanFacesELResolver</el-resolver>
+        <el-resolver>
+            org.primefaces.application.exceptionhandler.PrimeExceptionHandlerELResolver
+        </el-resolver>
+
+        <resource-bundle>
+            <base-name>messages</base-name>
+            <var>msg</var>
+        </resource-bundle>
     </application>
-
-    <managed-bean>
-        <managed-bean-name>loginHandler</managed-bean-name>
-        <managed-bean-class>ro.kepler.rominfo.controller.LoginHandler</managed-bean-class>
-        <managed-bean-scope>session</managed-bean-scope>
-    </managed-bean>
-
-    <managed-bean>
-        <managed-bean-name>registerHandler</managed-bean-name>
-        <managed-bean-class>ro.kepler.rominfo.controller.RegisterHandler</managed-bean-class>
-        <managed-bean-scope>request</managed-bean-scope>
-    </managed-bean>
-
-    <managed-bean>
-        <managed-bean-name>courseHandler</managed-bean-name>
-        <managed-bean-class>ro.kepler.rominfo.controller.CourseHandler</managed-bean-class>
-        <managed-bean-scope>request</managed-bean-scope>
-    </managed-bean>
-
-    <managed-bean>
-        <managed-bean-name>enrollmentHandler</managed-bean-name>
-        <managed-bean-class>ro.kepler.rominfo.controller.EnrollmentHandler</managed-bean-class>
-        <managed-bean-scope>request</managed-bean-scope>
-    </managed-bean>
-
-    <managed-bean>
-        <managed-bean-name>courseSelection</managed-bean-name>
-        <managed-bean-class>ro.kepler.rominfo.controller.CourseSelection</managed-bean-class>
-        <managed-bean-scope>view</managed-bean-scope>
-    </managed-bean>
-
-  <managed-bean>
-    <managed-bean-name>loginDto</managed-bean-name>
-    <managed-bean-class>ro.kepler.rominfo.dto.LoginDto</managed-bean-class>
-    <managed-bean-scope>session</managed-bean-scope>
-</managed-bean>
-
-    <managed-bean>
-        <managed-bean-name>registerDto</managed-bean-name>
-        <managed-bean-class>ro.kepler.rominfo.dto.RegisterDto</managed-bean-class>
-        <managed-bean-scope>request</managed-bean-scope>
-    </managed-bean>
-
-    <managed-bean>
-        <managed-bean-name>courseDto</managed-bean-name>
-        <managed-bean-class>ro.kepler.rominfo.dto.CourseDto</managed-bean-class>
-        <managed-bean-scope>view</managed-bean-scope>
-    </managed-bean>
 
 
 

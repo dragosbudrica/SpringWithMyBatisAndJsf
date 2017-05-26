@@ -15,28 +15,28 @@
         <p:panel id="panel" header="Register">
             <h:panelGrid columns="3" cellpadding="5">
                 <p:outputLabel for="firstName" value="First Name:"/>
-                <p:inputText id="firstName" value="#{registerDto.firstName}"
+                <p:inputText id="firstName" value="#{registerView.firstName}"
                              required="true" label="First name">
                     <f:validateLength minimum="3"/>
                 </p:inputText>
                 <p:message for="firstName" display="icon"/>
 
                 <p:outputLabel for="lastName" value="Last Name:"/>
-                <p:inputText id="lastName" value="#{registerDto.lastName}"
+                <p:inputText id="lastName" value="#{registerView.lastName}"
                              required="true" label="Last name">
                     <f:validateLength minimum="3"/>
                 </p:inputText>
                 <p:message for="lastName" display="icon"/>
 
                 <p:outputLabel for="ssn" value="SSN:"/>
-                <p:inputText id="ssn" value="#{registerDto.ssn}"
+                <p:inputText id="ssn" value="#{registerView.ssn}"
                              required="true" label="SSN">
                     <f:validateLength minimum="3"/>
                 </p:inputText>
                 <p:message for="ssn" display="icon"/>
 
                 <p:outputLabel for="email" value="Email:"/>
-                <p:inputText id="email" value="#{registerDto.email}"
+                <p:inputText id="email" value="#{registerView.email}"
                              required="true" label="Email">
                     <f:validateLength minimum="3"/>
                 </p:inputText>
@@ -44,7 +44,7 @@
 
                 <p:outputLabel for="password" value="Password:"/>
                 <p:password id="password"
-                            value="#{registerDto.password}" required="true"
+                            value="#{registerView.password}" required="true"
                             label="Password">
                     <f:validateLength minimum="3"/>
                 </p:password>
@@ -52,7 +52,7 @@
             </h:panelGrid>
 
             <p:commandButton value="Register" update="panel messages"
-                             action="#{registerHandler.register(registerDto)}"/>
+                             action="#{registerView.register}"/>
 
         </p:panel>
     </h:form>

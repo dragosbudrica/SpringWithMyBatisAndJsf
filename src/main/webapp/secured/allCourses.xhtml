@@ -1,0 +1,86 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/templates/ui-template.xhtml">
+    <ui:define name="title">
+        <title>All Courses</title>
+    </ui:define>
+    <ui:define name="menu">
+        <h:form>
+            <p:outputPanel id="menuPanel" layout="block">
+                <p:menu autoSubmenuDisplay="true"
+                        style="width:213px;height:483px;border:none;font-size:small;padding:0px;"
+                        ajax="false" type="sliding" backLabel="#{msg['menu.back']}">
+                    <p:submenu label="Pages" icon="ui-icon ui-icon-refresh">
+                        <p:menuitem>
+                            <h:commandLink action="/secured/myCourses.xhtml?faces-redirect=true" value="My Courses"/>
+                        </p:menuitem>
+                        <p:menuitem>
+                            <h:commandLink action="/secured/calendar.xhtml?faces-redirect=true" value="Calendar"/>
+                        </p:menuitem>
+                    </p:submenu>
+                </p:menu>
+            </p:outputPanel>
+        </h:form>
+    </ui:define>
+    <ui:define name="content">
+        <h:form id="form">
+            <p:dataTable value="#{courseView.getAllCourses()}" var="courseDto">
+                <f:facet name="header">
+                    List of Courses
+                </f:facet>
+                <p:column>
+                    <f:facet name="header">
+                        Course Name
+                    </f:facet>
+                    #{courseDto.courseName}
+                    <f:facet name="footer">
+                    </f:facet>
+                </p:column>
+                <p:column headerText="Category">
+                    #{courseDto.category}
+                </p:column>
+                <p:column headerText="Professor">
+                    #{courseDto.professor}
+                </p:column>
+                <p:column style="width:32px;text-align: center">
+                    <p:commandButton update=":form:courseDetail" oncomplete="PF('courseDialog').show()"
+                                     icon="ui-icon-search" title="View">
+                        <f:setPropertyActionListener value="#{courseDto}" target="#{courseView.selectedCourse}"/>
+                    </p:commandButton>
+                </p:column>
+            </p:dataTable>
+
+
+            <p:dialog id="courseDialog" header="Course Info" widgetVar="courseDialog" modal="false" showEffect="fade"
+                      hideEffect="fade"
+                      resizable="false" closable="false ">
+                <p:outputPanel id="courseDetail" style="text-align:center;">
+                    <p:panelGrid columns="2" rendered="#{not empty courseView.selectedCourse}"
+                                 columnClasses="label,value">
+
+                        <h:outputText value="Name:"/>
+                        <h:outputText value="#{courseView.selectedCourse.courseName}"/>
+
+                        <h:outputText value="Category"/>
+                        <h:outputText value="#{courseView.selectedCourse.category}"/>
+
+                        <h:outputText value="Professor:"/>
+                        <h:outputText value="#{courseView.selectedCourse.professor}"/>
+
+                    </p:panelGrid>
+                </p:outputPanel>
+                <f:facet name="footer">
+                    <h:panelGroup columns="2" columnClasses="button,button">
+                        <p:commandButton value="Enroll"
+                                         actionListener="#{enrollmentView.enroll(loginView.email, courseView.selectedCourse)}"/>
+                        <p:commandButton style="float:right" value="Cancel" onclick="PF('courseDialog').hide();"/>
+                    </h:panelGroup>
+                </f:facet>
+            </p:dialog>
+        </h:form>
+
+    </ui:define>
+</ui:composition>

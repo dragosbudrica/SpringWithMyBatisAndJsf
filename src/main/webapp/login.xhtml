@@ -2,14 +2,13 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
 <h:head>
     <title>Login</title>
     <f:metadata>
-        <f:viewAction action="#{loginHandler.loggedInForwardHome()}" />
+        <f:viewAction action="#{loginView.loggedInForwardHome()}" />
     </f:metadata>
 </h:head>
 
@@ -22,7 +21,7 @@
 
             <h:panelGrid columns="3" cellpadding="5">
                 <p:outputLabel for="userName" value="User Name:" />
-                <p:inputText id="userName" value="#{loginDto.email}"
+                <p:inputText id="userName" value="#{loginView.email}"
                              required="true" label="User name">
                     <f:validateLength minimum="3" />
                 </p:inputText>
@@ -30,7 +29,7 @@
 
                 <p:outputLabel for="password" value="Password:" />
                 <p:password id="password"
-                            value="#{loginDto.password}" required="true"
+                            value="#{loginView.password}" required="true"
                             label="Password">
                     <f:validateLength minimum="3" />
                 </p:password>
@@ -38,8 +37,7 @@
             </h:panelGrid>
 
             <p:commandButton value="Login" update="panel messages"
-                             action="#{loginHandler.login(loginDto)}" />
-
+                             action="#{loginView.login}" />
         </p:panel>
     </h:form>
 </h:body>
