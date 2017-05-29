@@ -18,7 +18,7 @@
                             <h:commandLink action="/secured/myCourses.xhtml?faces-redirect=true" value="My Courses"/>
                         </p:menuitem>
                         <p:menuitem>
-                            <h:commandLink action="/secured/calendar.xhtml?faces-redirect=true" value="Calendar"/>
+                            <h:commandLink action="/secured/timetable.xhtml?faces-redirect=true" value="Timetable"/>
                         </p:menuitem>
                     </p:submenu>
                 </p:menu>
@@ -52,9 +52,7 @@
                     </p:commandButton>
                 </p:column>
             </p:dataTable>
-
-
-            <p:dialog id="courseDialog" header="Course Info" widgetVar="courseDialog" modal="false" showEffect="fade"
+            <p:dialog header="Course Info" widgetVar="courseDialog" modal="false" showEffect="fade"
                       hideEffect="fade"
                       resizable="false" closable="false ">
                 <p:outputPanel id="courseDetail" style="text-align:center;">

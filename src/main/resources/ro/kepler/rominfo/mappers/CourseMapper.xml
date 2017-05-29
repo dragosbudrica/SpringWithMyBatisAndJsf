@@ -8,6 +8,8 @@
         <id property="courseCode" column="coursecode"/>
         <result property="courseName" column="coursename"/>
         <result property="category" column="category"/>
+        <result property="startTime" column="starttime"/>
+        <result property="endTime" column="endtime"/>
         <association property="professor" resultMap="ProfessorResult" columnPrefix="prof_"/>
     </resultMap>
 
@@ -42,6 +44,22 @@
     <select id="getMyCourses" resultMap="CourseResult">
         SELECT
         c."coursecode" as courseCode, c."coursename" AS courseName, c."category" AS category,
+        p."firstname" as prof_firstname, p."lastname" as prof_lastname, p."professorid" as prof_professorid
+        FROM public."course" c
+        INNER JOIN professor p
+        ON p.professorId = c.professorId
+        INNER JOIN enrollment e
+        ON c.coursecode = e.coursecode
+        INNER JOIN student s
+        ON e.studentid = s.studentid
+        WHERE s."studentid" = #{studentId}
+    </select>
+
+    <select id="getMyCoursesWithDates" resultMap="CourseResult">
+        SELECT
+        c."coursename" AS courseName,
+        c."starttime" AS startTime,
+        c."endtime" AS endTime,
         p."firstname" as prof_firstname, p."lastname" as prof_lastname, p."professorid" as prof_professorid
         FROM public."course" c
         INNER JOIN professor p

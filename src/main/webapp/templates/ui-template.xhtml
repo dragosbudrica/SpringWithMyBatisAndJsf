@@ -14,9 +14,13 @@
 
     <h:head>
         <ui:insert name="title" />
+        <p:dialog modal="true" widgetVar="statusDialog" draggable="false" closable="false"
+                  resizable="false" position="center" showHeader="false" maximizable="false" minimizable="false">
+            <p:graphicImage value="#{resource['images/ajax-loader.gif']}" />
+        </p:dialog>
     </h:head>
 
-    <h:body>
+    <h:body onload="PF('statusDialog').hide();">
         <p:ajaxStatus style="display:block;margin-bottom:2em;height:24px;">
             <f:facet name="default">
                 <h:outputText value="Status: StandBy" />
@@ -31,7 +35,7 @@
             </f:facet>
         </p:ajaxStatus>
 
-        <p:ajaxStatus onstart="PF('statusDialog').show()"  onsuccess="PF('statusDialog').hide()" />
+        <p:ajaxStatus onstart="PF('statusDialog').show();" onsuccess="PF('statusDialog').hide();" />
 
         <p:layout fullPage="true" resizeTitle="resize" style="background-color:#FFFFFF;">
             <p:layoutUnit position="north" size="140" id="north" >
@@ -54,10 +58,7 @@
             </p:layoutUnit>
         </p:layout>
 
-        <p:dialog id="statusDialog" ajax="false" widgetVar="statusDialog" modal="true" draggable="false" closable="false"
-                  resizable="false" position="center" showHeader="false">
-            <p:graphicImage value="#{resource['images/ajax-loader.gif']}" />
-        </p:dialog>
+
 
     </h:body>
 

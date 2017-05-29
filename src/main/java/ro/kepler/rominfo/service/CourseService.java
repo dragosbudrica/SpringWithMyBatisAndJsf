@@ -30,6 +30,11 @@ public class CourseService {
         return courseMapper.getAllCourses();
     }
 
+    public List<Course> getMyCoursesWithDates(String email) {
+        Student student = studentMapper.findByEmail(email);
+        return courseMapper.getMyCoursesWithDates(student.getStudentId());
+    }
+
     public List<Course> getMyCourses(String email) {
         Student student = studentMapper.findByEmail(email);
         return courseMapper.getMyCourses(student.getStudentId());

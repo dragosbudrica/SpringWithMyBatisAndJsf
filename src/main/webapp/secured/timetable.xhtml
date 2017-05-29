@@ -5,7 +5,7 @@
                 xmlns:p="http://primefaces.org/ui"
                 template="/templates/ui-template.xhtml">
     <ui:define name="title">
-        <title>My Courses</title>
+        <title>Timetable</title>
     </ui:define>
     <ui:define name="menu">
         <h:form>
@@ -18,7 +18,7 @@
                             <h:commandLink action="/secured/allCourses.xhtml?faces-redirect=true" value="All Courses"/>
                         </p:menuitem>
                         <p:menuitem>
-                            <h:commandLink action="/secured/timetable.xhtml?faces-redirect=true" value="Timetable"/>
+                            <h:commandLink action="/secured/myCourses.xhtml?faces-redirect=true" value="My Courses"/>
                         </p:menuitem>
                     </p:submenu>
                 </p:menu>
@@ -27,25 +27,17 @@
     </ui:define>
     <ui:define name="content">
         <h:form id="form">
-            <p:dataTable value="#{courseView.getMyCourses(loginView.email)}" var="courseDto">
-                <f:facet name="header">
-                    My Courses
-                </f:facet>
-                <p:column>
-                    <f:facet name="header">
-                        Course Name
-                    </f:facet>
-                    #{courseDto.courseName}
-                    <f:facet name="footer">
-                    </f:facet>
-                </p:column>
-                <p:column headerText="Category">
-                    #{courseDto.category}
-                </p:column>
-                <p:column headerText="Professor">
-                    #{courseDto.professor}
-                </p:column>
-            </p:dataTable>
+            <p:growl id="messages" showDetail="true"/>
+
+            <h:panelGrid columnClasses="value">
+                <h3 style="margin-top: 0">Timetable</h3>
+                <p:schedule id="schedule" value="#{timetableView.eventModel}" widgetVar="myschedule" timeZone="GMT+3"/>
+            </h:panelGrid>
         </h:form>
+        <style type="text/css">
+            .value {
+                width: 1000px;
+            }
+        </style>
     </ui:define>
 </ui:composition>

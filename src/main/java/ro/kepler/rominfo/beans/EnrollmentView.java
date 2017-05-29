@@ -64,7 +64,7 @@ public class EnrollmentView {
             }
             else {
                 LOGGER.info("student already enrolled for this course");
-                RequestContext.getCurrentInstance().showMessageInDialog(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Enrollment Failed", "You are already enrolled on that course!"));
+                RequestContext.getCurrentInstance().showMessageInDialog(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Enrollment Failed", "You are already enrolled in that course!"));
                 RequestContext.getCurrentInstance().execute("PF('courseDialog').hide();");
                 return "failed";
             }
