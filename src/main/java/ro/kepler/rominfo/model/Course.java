@@ -2,6 +2,7 @@ package ro.kepler.rominfo.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -12,6 +13,24 @@ public class Course implements Serializable {
     private String courseName;
     private String category;
     private  Professor professor;
+    private Date startTime;
+    private Date endTime;
+
+    public Date getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
+    }
+
+    public Date getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
+    }
 
     private List<Student> students = new ArrayList<Student>();
 

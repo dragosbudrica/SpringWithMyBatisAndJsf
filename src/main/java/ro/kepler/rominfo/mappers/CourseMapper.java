@@ -14,6 +14,8 @@ public interface CourseMapper {
     Course getCourseByCode(int courseCode);
     List<Course> getAllCourses();
     List<Course> getMyCourses(@Param("studentId") int studentId);
+
+    List<Course> getMyCoursesWithDates(@Param("studentId") int studentId);
     Course getCourseByName(String courseName);
   //  void addCourse(Course course);
 }
