@@ -1,5 +1,6 @@
 package  ro.kepler.rominfo.mappers;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 import ro.kepler.rominfo.model.Student;
 
@@ -10,5 +11,5 @@ import ro.kepler.rominfo.model.Student;
 @Repository
 public interface StudentMapper {
     void addStudent(Student student);
-    Student findByEmail(String email);
+    Student findByEmail(@Param("email") String email);
 }

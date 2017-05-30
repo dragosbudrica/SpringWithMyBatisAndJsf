@@ -54,5 +54,13 @@
     <url-pattern>*.xhtml</url-pattern>
   </servlet-mapping>
 
+  <security-role>
+    <role-name>student</role-name>
+  </security-role>
+
+  <security-role>
+    <role-name>professor</role-name>
+  </security-role>
+
 
 </web-app>

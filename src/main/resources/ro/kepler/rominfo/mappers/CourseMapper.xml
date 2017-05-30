@@ -19,6 +19,13 @@
         <result property="lastName" column="lastname"/>
     </resultMap>
 
+
+    <resultMap type="Course" id="CourseResultProf">
+        <id property="courseCode" column="coursecode"/>
+        <result property="courseName" column="coursename"/>
+        <result property="category" column="category"/>
+    </resultMap>
+
     <select id="getCourseByCode" parameterType="int" resultMap="CourseResult">
         SELECT
         c."coursecode" as courseCode, c."coursename" AS courseName, c."category" AS category, c."professorid" AS professorId
@@ -41,7 +48,7 @@
         ON p.professorId = c.professorId
     </select>
 
-    <select id="getMyCourses" resultMap="CourseResult">
+    <select id="getStudentCourses" resultMap="CourseResult">
         SELECT
         c."coursecode" as courseCode, c."coursename" AS courseName, c."category" AS category,
         p."firstname" as prof_firstname, p."lastname" as prof_lastname, p."professorid" as prof_professorid
@@ -55,8 +62,9 @@
         WHERE s."studentid" = #{studentId}
     </select>
 
-    <select id="getMyCoursesWithDates" resultMap="CourseResult">
+    <select id="getStudentCoursesWithDates" resultMap="CourseResult">
         SELECT
+        c."coursecode" AS courseCode,
         c."coursename" AS courseName,
         c."starttime" AS startTime,
         c."endtime" AS endTime,
@@ -70,5 +78,31 @@
         ON e.studentid = s.studentid
         WHERE s."studentid" = #{studentId}
     </select>
+
+    <select id="getAllCoursesWithDates" resultMap="CourseResult">
+        SELECT
+        c."coursecode" as courseCode, c."coursename" AS courseName, c."category" AS category,
+        c."starttime" as startTime, c."endtime" as endTime
+        FROM public."course" c
+    </select>
+
+
+    <select id="getProfessorCourses" resultMap="CourseResultProf">
+        SELECT
+        c."coursecode" AS courseCode,
+        c."coursename" AS courseName,
+        c."category" AS category
+        FROM public."course" c
+        INNER JOIN professor p
+        ON c.professorid = p.professorid
+        WHERE p."professorid" = #{professorId}
+    </select>
+
+    <update id="updateCourseSchedule" >
+        update public."course" set
+            "starttime" = #{startTime},
+            "endtime" = #{endTime}
+        where "coursename" = #{courseName}
+    </update>
 
 </mapper>

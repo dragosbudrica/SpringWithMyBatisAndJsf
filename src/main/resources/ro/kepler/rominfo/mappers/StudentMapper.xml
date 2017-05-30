@@ -4,7 +4,7 @@
 
 <mapper namespace="ro.kepler.rominfo.mappers.StudentMapper">
 
-    <resultMap type="student" id="StudentResult">
+    <resultMap type="Student" id="StudentResult">
         <id property="studentId" column="studentId"/>
         <result property="firstName" column="firstName"/>
         <result property="lastName" column="lastName"/>

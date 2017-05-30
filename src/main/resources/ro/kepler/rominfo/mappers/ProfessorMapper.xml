@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ro.kepler.rominfo.mappers.ProfessorMapper">
+
+    <resultMap type="Professor" id="ProfessorResult">
+        <id property="professorId" column="professorId"/>
+        <result property="firstName" column="firstname"/>
+        <result property="lastName" column="lastname"/>
+        <result property="ssn" column="ssn"/>
+        <result property="email" column="email"/>
+        <result property="password" column="password"/>
+    </resultMap>
+
+    <select id="getProfessorById" parameterType="int" resultMap="ProfessorResult">
+        SELECT
+        p."professorid" as professorId, p."firstname" AS firstName, p."lastname" AS lastName,
+        p."ssn" AS ssn, p."email" AS email, p."password" AS password
+        FROM public."professor" p
+        WHERE s."professorId"=#{professorId}
+    </select>
+
+    <select id="getAllProfessors" resultMap="ProfessorResult">
+        SELECT
+        p."professorid" as professorId, p."firstname" AS firstName, p."lastname" AS lastName,
+        p."ssn" AS ssn, p."email" AS email, p."password" AS password
+        FROM public."professor" p
+    </select>
+
+    <insert id="addProfessor">
+        insert into professor (firstName,lastName,ssn,email,password)
+        values (#{firstName},#{lastName},#{ssn},#{email},#{password})
+    </insert>
+
+    <select id="findByEmail" resultMap="ProfessorResult">
+        SELECT
+        p."professorid" as professorId, p."firstname" AS firstName, p."lastname" AS lastName,
+        p."ssn" AS ssn, p."email" AS email, p."password" AS password
+        FROM public."professor" p
+        WHERE p."email"=#{email}
+    </select>
+
+</mapper>
