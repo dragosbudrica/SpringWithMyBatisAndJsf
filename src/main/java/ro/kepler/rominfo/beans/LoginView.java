@@ -4,6 +4,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import ro.kepler.rominfo.filter.LoginFilter;
 import ro.kepler.rominfo.model.Student;
+import ro.kepler.rominfo.service.ProfessorService;
 import ro.kepler.rominfo.service.StudentService;
 
 import javax.faces.application.FacesMessage;
@@ -27,16 +28,24 @@ public class LoginView implements Serializable {
     @ManagedProperty("#{studentService}")
     private StudentService studentService;
 
+    @ManagedProperty("#{professorService}")
+    private ProfessorService professorService;
+
     private String email;
     private String password;
 
     private static final Log LOGGER = LogFactory.getLog(LoginFilter.class);
 
-    public static final String HOME_PAGE_REDIRECT = "/secured/allCourses.xhtml?faces-redirect=true";
+    public static final String ALL_COURSES_REDIRECT = "/secured/allCourses.xhtml?faces-redirect=true";
+    public static final String PROFESSOR_COURSES_REDIRECT = "/secured/professorCourses.xhtml?faces-redirect=true";
     public static final String LOGOUT_PAGE_REDIRECT = "/logout.xhtml?faces-redirect=true";
 
     public void setStudentService(StudentService studentService) {
         this.studentService = studentService;
+    }
+
+    public void setProfessorService(ProfessorService professorService) {
+        this.professorService = professorService;
     }
 
     /**
@@ -45,11 +54,15 @@ public class LoginView implements Serializable {
      */
     public String login() {
         if (studentService.find(email)) {
-            LOGGER.info("login successful for " + email);
             ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
             Map<String, Object> sessionMap = externalContext.getSessionMap();
             sessionMap.put("loginView", this);
-            return HOME_PAGE_REDIRECT;
+            return ALL_COURSES_REDIRECT;
+        } else if (professorService.find(email)) {
+            ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+            Map<String, Object> sessionMap = externalContext.getSessionMap();
+            sessionMap.put("loginView", this);
+            return PROFESSOR_COURSES_REDIRECT;
         } else {
             LOGGER.info("login failed for " + email);
             FacesContext.getCurrentInstance().addMessage(null,
@@ -78,10 +91,14 @@ public class LoginView implements Serializable {
         return email != null;
     }
 
-    public String loggedInForwardHome() {
-        if (isLoggedIn()) {
-            return HOME_PAGE_REDIRECT;
+    public String loggedInForward() {
+        if (isLoggedIn() && FacesContext.getCurrentInstance().getExternalContext().isUserInRole("student")) {
+            return ALL_COURSES_REDIRECT;
         }
+        else  if (isLoggedIn() && FacesContext.getCurrentInstance().getExternalContext().isUserInRole("professor")) {
+            return PROFESSOR_COURSES_REDIRECT;
+        }
+        else
         return null;
     }
 

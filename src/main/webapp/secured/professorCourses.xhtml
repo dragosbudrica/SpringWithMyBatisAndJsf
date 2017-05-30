@@ -15,10 +15,10 @@
                         ajax="false" type="sliding" backLabel="#{msg['menu.back']}">
                     <p:submenu label="Pages" icon="ui-icon ui-icon-refresh">
                         <p:menuitem>
-                            <h:commandLink action="/secured/allCourses.xhtml?faces-redirect=true" value="All Courses"/>
+                            <h:commandLink action="/secured/courseScheduling.xhtml?faces-redirect=true" value="Course Scheduling"/>
                         </p:menuitem>
                         <p:menuitem>
-                            <h:commandLink action="/secured/timetable.xhtml?faces-redirect=true" value="Timetable"/>
+                            <h:commandLink action="/secured/page2.xhtml?faces-redirect=true" value="Page2"/>
                         </p:menuitem>
                     </p:submenu>
                 </p:menu>
@@ -27,7 +27,7 @@
     </ui:define>
     <ui:define name="content">
         <h:form id="form">
-            <p:dataTable value="#{studentCourseView.getStudentCourses(loginView.email)}" var="courseDto">
+            <p:dataTable value="#{professorCourseView.getProfessorCourses(loginView.email)}" var="courseDto">
                 <f:facet name="header">
                     My Courses
                 </f:facet>
@@ -41,9 +41,6 @@
                 </p:column>
                 <p:column headerText="Category">
                     #{courseDto.category}
-                </p:column>
-                <p:column headerText="Professor">
-                    #{courseDto.professor}
                 </p:column>
             </p:dataTable>
         </h:form>

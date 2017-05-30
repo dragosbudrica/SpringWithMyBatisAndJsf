@@ -15,6 +15,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import java.io.Serializable;
 
 /**
  * Created by Dragos on 22.05.2017.
@@ -22,7 +23,7 @@ import javax.faces.context.FacesContext;
 
 @ManagedBean
 @ViewScoped
-public class EnrollmentView {
+public class EnrollmentView implements Serializable {
 
     @ManagedProperty("#{studentService}")
     private StudentService studentService;
@@ -64,7 +65,7 @@ public class EnrollmentView {
             }
             else {
                 LOGGER.info("student already enrolled for this course");
-                RequestContext.getCurrentInstance().showMessageInDialog(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Enrollment Failed", "You are already enrolled in that course!"));
+                RequestContext.getCurrentInstance().showMessageInDialog(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Enrollment Failed", "You are already enrolled at that course!"));
                 RequestContext.getCurrentInstance().execute("PF('courseDialog').hide();");
                 return "failed";
             }

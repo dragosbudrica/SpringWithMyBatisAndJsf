@@ -1,0 +1,78 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/templates/ui-template.xhtml">
+    <ui:define name="title">
+        <title>Course Scheduling</title>
+    </ui:define>
+    <ui:define name="menu">
+        <h:form>
+            <p:outputPanel id="menuPanel" layout="block">
+                <p:menu autoSubmenuDisplay="true"
+                        style="width:213px;height:483px;border:none;font-size:small;padding:0px;"
+                        ajax="false" type="sliding" backLabel="#{msg['menu.back']}">
+                    <p:submenu label="Pages" icon="ui-icon ui-icon-refresh">
+                        <p:menuitem>
+                            <h:commandLink action="/secured/professorCourses.xhtml?faces-redirect=true" value="My Courses"/>
+                        </p:menuitem>
+                        <p:menuitem>
+                            <h:commandLink action="/secured/page2.xhtml?faces-redirect=true" value="Page2"/>
+                        </p:menuitem>
+                    </p:submenu>
+                </p:menu>
+            </p:outputPanel>
+        </h:form>
+    </ui:define>
+    <ui:define name="content">
+        <h:form>
+            <p:growl id="messages" showDetail="true" />
+
+            <h:panelGrid columnClasses="value">
+                <h3 style="margin-top: 0">Course Scheduling</h3>
+                <p:schedule id="schedule" value="#{courseSchedulingView.eventModel}" widgetVar="myschedule" timeZone="GMT+3">
+
+                    <p:ajax event="dateSelect" listener="#{courseSchedulingView.onDateSelect}" update="eventDetails" oncomplete="PF('eventDialog').show();" />
+                    <p:ajax event="eventSelect" listener="#{courseSchedulingView.onEventSelect}" update="eventDetails" oncomplete="PF('eventDialog').show();" />
+                    <p:ajax event="eventMove" listener="#{courseSchedulingView.onEventMove}" update="messages" />
+                    <p:ajax event="eventResize" listener="#{courseSchedulingView.onEventResize}" update="messages" />
+
+                </p:schedule>
+            </h:panelGrid>
+
+            <p:dialog widgetVar="eventDialog" header="Course Details" showEffect="clip" hideEffect="clip">
+                <h:panelGrid id="eventDetails" columns="2">
+                    <p:outputLabel for="title" value="Course Name:" />
+                    <p:selectOneMenu id="title" value="#{courseSchedulingView.event.title}" style="width:150px">
+                        <f:selectItems value="#{professorCourseView.getProfessorCourseTitles(loginView.email)}" />
+                    </p:selectOneMenu>
+
+                    <p:outputLabel for="from" value="From:" />
+                    <p:calendar id="from" value="#{courseSchedulingView.event.startDate}" timeZone="GMT+3" pattern="dd/MM/yyyy HH:mm"/>
+
+                    <p:outputLabel for="to" value="To:" />
+                    <p:calendar id="to" value="#{courseSchedulingView.event.endDate}" timeZone="GMT+3" pattern="dd/MM/yyyy HH:mm"/>
+
+                    <p:outputLabel for="allDay" value="All Day:" />
+                    <h:selectBooleanCheckbox id="allDay" value="#{courseSchedulingView.event.allDay}" />
+
+                    <p:commandButton type="reset" value="Reset" />
+                    <p:commandButton id="addButton" value="Save" actionListener="#{courseSchedulingView.addEvent}"
+                                     oncomplete="PF('eventDialog').hide(); PF('myschedule').update();">
+                            <p:confirm header="Confirmation" message="Are you sure you want to schedule this course at that time?" icon="ui-icon-alert" />
+                    </p:commandButton>
+                </h:panelGrid>
+            </p:dialog>
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                <p:commandButton value="Yes" type="button" oncomplete="" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+            </p:confirmDialog>
+        </h:form>
+        <style type="text/css">
+            .value {
+                width: 1000px;
+            }
+        </style>
+    </ui:define>
+</ui:composition>

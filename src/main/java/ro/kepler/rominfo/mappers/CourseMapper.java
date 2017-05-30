@@ -3,6 +3,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 import ro.kepler.rominfo.model.Course;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -13,9 +14,11 @@ import java.util.List;
 public interface CourseMapper {
     Course getCourseByCode(int courseCode);
     List<Course> getAllCourses();
-    List<Course> getMyCourses(@Param("studentId") int studentId);
-
-    List<Course> getMyCoursesWithDates(@Param("studentId") int studentId);
+    List<Course> getStudentCourses(@Param("studentId") int studentId);
+    List<Course> getStudentCoursesWithDates(@Param("studentId") int studentId);
+    List<Course> getProfessorCourses(@Param("professorId") int professorId);
+    List<Course> getAllCoursesWithDates();
     Course getCourseByName(String courseName);
+    void updateCourseSchedule(@Param("courseName") String courseName, @Param("startTime") Date startTime, @Param("endTime") Date endTime);
   //  void addCourse(Course course);
 }

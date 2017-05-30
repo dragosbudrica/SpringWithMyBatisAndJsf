@@ -9,6 +9,7 @@ import ro.kepler.rominfo.service.CourseService;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +18,7 @@ import java.util.List;
  */
 @ManagedBean
 @ViewScoped
-public class CourseView {
+public class StudentCourseView implements Serializable {
 
     @ManagedProperty("#{courseService}")
     private CourseService courseService;
@@ -52,9 +53,9 @@ public class CourseView {
         return courses;
     }
 
-    public List<CourseDto> getMyCourses(String email) {
+    public List<CourseDto> getStudentCourses(String email) {
 
-        List<Course> myCourses =  courseService.getMyCourses(email);
+        List<Course> myCourses =  courseService.getStudentCourses(email);
         List<CourseDto> courses = new ArrayList<CourseDto>();
 
         for (Course currentCourse : myCourses) {
