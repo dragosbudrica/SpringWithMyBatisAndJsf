@@ -22,7 +22,7 @@ public class EnrollmentService {
         this.enrollmentMapper = enrollmentMapper;
     }
 
-    @Transactional
+  /*  @Transactional
     public void enroll(Student student, Course course) {
         student.getCourses().add(course);
         course.getStudents().add(student);
@@ -35,5 +35,5 @@ public class EnrollmentService {
                 return true;
         }
         return false;
-    }
+    } */
 }

@@ -53,7 +53,7 @@ public class StudentCourseView implements Serializable {
         return courses;
     }
 
-    public List<CourseDto> getStudentCourses(String email) {
+ /*   public List<CourseDto> getStudentCourses(String email) {
 
         List<Course> myCourses =  courseService.getStudentCourses(email);
         List<CourseDto> courses = new ArrayList<CourseDto>();
@@ -66,5 +66,5 @@ public class StudentCourseView implements Serializable {
             courses.add(courseDto);
         }
         return courses;
-    }
+    } */
 }

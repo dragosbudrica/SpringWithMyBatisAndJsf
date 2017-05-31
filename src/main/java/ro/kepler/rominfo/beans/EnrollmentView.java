@@ -51,7 +51,7 @@ public class EnrollmentView implements Serializable {
         this.studentService = studentService;
     }
 
-    public String enroll(String email, CourseDto courseDto) {
+  /*  public String enroll(String email, CourseDto courseDto) {
         Student student = studentService.getStudentByEmail(email);
         Course course = courseService.getCourseByName(courseDto.getCourseName());
 
@@ -79,5 +79,5 @@ public class EnrollmentView implements Serializable {
                             "The enrollment process has failed."));
             return null;
         }
-    }
+    } */
 }

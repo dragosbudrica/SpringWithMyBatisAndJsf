@@ -53,6 +53,18 @@ public class CourseSchedulingView implements Serializable {
         return courses;
     }
 
+   /* public List<String> getProfessorCourseTitles(String email) {
+
+        List<Course> myCourses =  courseService.getProfessorCourses(email);
+        List<String> courses = new ArrayList<String>();
+
+        for (Course currentCourse : myCourses) {
+            String courseName = currentCourse.getCourseName();
+            courses.add(courseName);
+        }
+        return courses;
+    } */
+
     @PostConstruct
     public void init() {
         eventModel = new DefaultScheduleModel();

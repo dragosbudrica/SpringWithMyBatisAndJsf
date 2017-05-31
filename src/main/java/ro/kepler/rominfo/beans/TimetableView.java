@@ -37,7 +37,7 @@ public class TimetableView implements Serializable {
 
     private ScheduleModel eventModel;
 
-    private List<CourseDto> getMyCoursesWithDates(String email) {
+ /*   private List<CourseDto> getMyCoursesWithDates(String email) {
 
         List<Course> myCourses =  courseService.getStudentCoursesWithDates(email);
         List<CourseDto> courses = new ArrayList<CourseDto>();
@@ -61,5 +61,5 @@ public class TimetableView implements Serializable {
     }
     public ScheduleModel getEventModel() {
         return eventModel;
-    }
+    } */
 }

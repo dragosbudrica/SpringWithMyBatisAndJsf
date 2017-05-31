@@ -39,7 +39,7 @@ public class CourseService {
         return courseMapper.getAllCoursesWithDates();
     }
 
-    public List<Course> getStudentCoursesWithDates(String email) {
+   /* public List<Course> getStudentCoursesWithDates(String email) {
         Student student = studentMapper.findByEmail(email);
         return courseMapper.getStudentCoursesWithDates(student.getStudentId());
     }
@@ -52,7 +52,7 @@ public class CourseService {
     public List<Course> getProfessorCourses(String email) {
         Professor professor = professorMapper.findByEmail(email);
         return courseMapper.getProfessorCourses(professor.getProfessorId());
-    }
+    }*/
 
     public Course getCourseByName(String courseName) {
         return courseMapper.getCourseByName(courseName);

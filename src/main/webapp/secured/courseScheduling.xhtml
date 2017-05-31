@@ -45,7 +45,7 @@
                 <h:panelGrid id="eventDetails" columns="2">
                     <p:outputLabel for="title" value="Course Name:" />
                     <p:selectOneMenu id="title" value="#{courseSchedulingView.event.title}" style="width:150px">
-                        <f:selectItems value="#{professorCourseView.getProfessorCourseTitles(loginView.email)}" />
+                        <f:selectItems value="#{courseSchedulingView.getProfessorCourseTitles(loginView.email)}" />
                     </p:selectOneMenu>
 
                     <p:outputLabel for="from" value="From:" />

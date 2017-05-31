@@ -26,7 +26,7 @@ public class ProfessorCourseView implements Serializable {
         this.courseService = courseService;
     }
 
-    public List<CourseDto> getProfessorCourses(String email) {
+   /* public List<CourseDto> getProfessorCourses(String email) {
 
         List<Course> myCourses =  courseService.getProfessorCourses(email);
         List<CourseDto> courses = new ArrayList<CourseDto>();
@@ -38,17 +38,5 @@ public class ProfessorCourseView implements Serializable {
             courses.add(courseDto);
         }
         return courses;
-    }
-
-    public List<String> getProfessorCourseTitles(String email) {
-
-        List<Course> myCourses =  courseService.getProfessorCourses(email);
-        List<String> courses = new ArrayList<String>();
-
-        for (Course currentCourse : myCourses) {
-            String courseName = new String(currentCourse.getCourseName());
-            courses.add(courseName);
-        }
-        return courses;
-    }
+    } */
 }
