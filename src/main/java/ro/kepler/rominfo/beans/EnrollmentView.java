@@ -5,10 +5,10 @@ import org.apache.commons.logging.LogFactory;
 import org.primefaces.context.RequestContext;
 import ro.kepler.rominfo.dto.CourseDto;
 import ro.kepler.rominfo.model.Course;
-import ro.kepler.rominfo.model.Student;
+import ro.kepler.rominfo.model.User;
 import ro.kepler.rominfo.service.CourseService;
 import ro.kepler.rominfo.service.EnrollmentService;
-import ro.kepler.rominfo.service.StudentService;
+import ro.kepler.rominfo.service.UserService;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -25,8 +25,8 @@ import java.io.Serializable;
 @ViewScoped
 public class EnrollmentView implements Serializable {
 
-    @ManagedProperty("#{studentService}")
-    private StudentService studentService;
+    @ManagedProperty("#{userService}")
+    private UserService userService;
 
     @ManagedProperty("#{courseService}")
     private CourseService courseService;
@@ -38,8 +38,6 @@ public class EnrollmentView implements Serializable {
         this.courseService = courseService;
     }
 
-
-
     public void setEnrollmentService(EnrollmentService enrollmentService) {
         this.enrollmentService = enrollmentService;
     }
@@ -47,12 +45,12 @@ public class EnrollmentView implements Serializable {
     private static final Log LOGGER = LogFactory.getLog(EnrollmentView.class);
 
 
-    public void setStudentService(StudentService studentService) {
-        this.studentService = studentService;
+    public void setUserService(UserService userService) {
+        this.userService = userService;
     }
 
-  /*  public String enroll(String email, CourseDto courseDto) {
-        Student student = studentService.getStudentByEmail(email);
+    public String enroll(String email, CourseDto courseDto) {
+        User student = userService.find(email);
         Course course = courseService.getCourseByName(courseDto.getCourseName());
 
         try {
@@ -79,5 +77,5 @@ public class EnrollmentView implements Serializable {
                             "The enrollment process has failed."));
             return null;
         }
-    } */
+    }
 }

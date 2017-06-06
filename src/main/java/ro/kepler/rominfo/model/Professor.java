@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * Created by Dragos on 19.05.2017.
  */
-public class Professor extends User implements Serializable {
+public class Professor extends User {
     private String entitling;
     private String department;
 
@@ -25,7 +25,4 @@ public class Professor extends User implements Serializable {
         this.department = department;
     }
 
-    public String getFullName() {
-        return super.getFirstName() + " " + super.getLastName();
-    }
 }

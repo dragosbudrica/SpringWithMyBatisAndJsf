@@ -3,17 +3,13 @@ package ro.kepler.rominfo.beans;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import ro.kepler.rominfo.filter.LoginFilter;
-import ro.kepler.rominfo.model.Student;
 import ro.kepler.rominfo.model.User;
-import ro.kepler.rominfo.service.ProfessorService;
-import ro.kepler.rominfo.service.StudentService;
 import ro.kepler.rominfo.service.UserService;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
-import javax.faces.bean.ViewScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import java.io.Serializable;
@@ -35,10 +31,10 @@ public class LoginView implements Serializable {
 
     private static final Log LOGGER = LogFactory.getLog(LoginFilter.class);
 
-    public static final String ALL_COURSES_REDIRECT = "/secured/allCourses.xhtml?faces-redirect=true";
-    public static final String PROFESSOR_COURSES_REDIRECT = "/secured/professorCourses.xhtml?faces-redirect=true";
-    public static final String LOGOUT_PAGE_REDIRECT = "/logout.xhtml?faces-redirect=true";
-    public static final String REGISTER_REDIRECT = "/secured/register.xhtml?faces-redirect=true";
+    private static final String ALL_COURSES_REDIRECT = "/secured/allCourses.xhtml?faces-redirect=true";
+    private static final String PROFESSOR_COURSES_REDIRECT = "/secured/professorCourses.xhtml?faces-redirect=true";
+    private static final String LOGOUT_PAGE_REDIRECT = "/logout.xhtml?faces-redirect=true";
+    private static final String REGISTER_REDIRECT = "/secured/register.xhtml?faces-redirect=true";
 
     public void setUserService(UserService userService) {
         this.userService = userService;
@@ -78,11 +74,11 @@ public class LoginView implements Serializable {
         LOGGER.debug("invalidating session for " + email);
         FacesContext.getCurrentInstance().getExternalContext()
                 .invalidateSession();
+        LOGGER.info("register successful for " + email);
 
         email = null;
         password = null;
 
-        LOGGER.info("logout successful for " + email);
         return LOGOUT_PAGE_REDIRECT;
     }
 

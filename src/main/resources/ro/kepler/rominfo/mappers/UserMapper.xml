@@ -28,7 +28,6 @@
         <result property="specialization" column="specialization"/>
     </resultMap>
 
-
     <select id="getAllUsers" resultMap="UserResult">
         SELECT u."userid" AS userId,
         u."firstname" AS firstName,
@@ -38,6 +37,18 @@
         u."password" AS password,
         u."role" AS role
         FROM public."user" u
+    </select>
+
+    <select id="getUserById" resultMap="UserResult">
+        SELECT u."userid" AS userId,
+        u."firstname" AS firstName,
+        u."lastname" AS lastName,
+        u."ssn" AS ssn,
+        u."email" AS email,
+        u."password" AS password,
+        u."role" AS role
+        FROM public."user" u
+        WHERE u.userid=#{userId}
     </select>
 
     <insert id = "addProfessorUser">
@@ -61,4 +72,6 @@
         FROM public."user" u
         WHERE u."email"=#{email}
     </select>
+
+
 </mapper>

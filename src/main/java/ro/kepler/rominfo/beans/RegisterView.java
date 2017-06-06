@@ -3,7 +3,6 @@ package ro.kepler.rominfo.beans;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import ro.kepler.rominfo.model.User;
-import ro.kepler.rominfo.service.StudentService;
 import ro.kepler.rominfo.service.UserService;
 
 import javax.faces.application.FacesMessage;
@@ -81,18 +80,19 @@ public class RegisterView implements Serializable {
 
     private static final Log LOGGER = LogFactory.getLog(RegisterView.class);
 
-    public static final String LOGIN_PAGE_REDIRECT = "login.xhtml?faces-redirect=true";
-
     public void setUserService(UserService userService) {
         this.userService = userService;
     }
 
-    public String register() {
+    public void register() {
         User user = userService.find(email);
-        if(user != null) {
-            LOGGER.info("register successful for " + email);
+        if(user == null) {
             userService.addUser(firstName, lastName, ssn, email, password, role);
-            return LOGIN_PAGE_REDIRECT;
+            LOGGER.info("register successful for " + email);
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_INFO,
+                            "Register successful. That account has been created.",
+                            "That account have been created."));
         }
         else {
             LOGGER.info("register failed for " + email);
@@ -100,7 +100,6 @@ public class RegisterView implements Serializable {
                     new FacesMessage(FacesMessage.SEVERITY_WARN,
                             "Register failed. That email is already used.",
                             "That email is already used."));
-            return null;
         }
     }
 }

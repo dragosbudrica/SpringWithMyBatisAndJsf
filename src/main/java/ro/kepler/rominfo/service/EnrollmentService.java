@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ro.kepler.rominfo.mappers.EnrollmentMapper;
 import ro.kepler.rominfo.model.Course;
 import ro.kepler.rominfo.model.Student;
+import ro.kepler.rominfo.model.User;
 
 import java.util.List;
 
@@ -22,18 +23,18 @@ public class EnrollmentService {
         this.enrollmentMapper = enrollmentMapper;
     }
 
-  /*  @Transactional
-    public void enroll(Student student, Course course) {
-        student.getCourses().add(course);
-        course.getStudents().add(student);
-        enrollmentMapper.addEnrollment(student.getStudentId(), course.getCourseCode());
+    @Transactional
+    public void enroll(User student, Course course) {
+        ((Student)student).getCourses().add(course);
+        course.getStudents().add((Student)student);
+        enrollmentMapper.addEnrollment(student.getUserId(), course.getCourseCode());
     }
 
-    public boolean alreadyEnrolled(Student student, Course course) {
-        for (Course currentCourse : enrollmentMapper.getCoursesOfStudent(student.getStudentId())) {
+    public boolean alreadyEnrolled(User student, Course course) {
+        for (Course currentCourse : enrollmentMapper.getCoursesOfStudent(student.getUserId())) {
             if(currentCourse.getCourseCode() == course.getCourseCode())
                 return true;
         }
         return false;
-    } */
+    }
 }

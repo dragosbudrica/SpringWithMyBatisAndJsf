@@ -3,9 +3,7 @@ package ro.kepler.rominfo.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ro.kepler.rominfo.mappers.StudentMapper;
 import ro.kepler.rominfo.mappers.UserMapper;
-import ro.kepler.rominfo.model.Student;
 import ro.kepler.rominfo.model.User;
 
 /**

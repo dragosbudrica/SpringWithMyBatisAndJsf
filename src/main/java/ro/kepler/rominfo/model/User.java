@@ -1,9 +1,11 @@
 package ro.kepler.rominfo.model;
 
+import java.io.Serializable;
+
 /**
  * Created by Dragos on 31.05.2017.
  */
-public class User {
+public class User implements Serializable {
     private int userId;
     private String firstName;
     private String lastName;
@@ -66,5 +68,9 @@ public class User {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public String getFullName() {
+        return firstName + " " + lastName;
     }
 }

@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Created by Dragos on 15.05.2017.
  */
-public class Student extends User implements Serializable {
+public class Student extends User {
     private int yearOfStudy;
     private String specialization;
 

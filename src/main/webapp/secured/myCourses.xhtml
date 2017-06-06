@@ -27,7 +27,7 @@
     </ui:define>
     <ui:define name="content">
         <h:form id="form">
-            <p:dataTable value="#{studentCourseView.getStudentCourses(loginView.email)}" var="courseDto">
+            <p:dataTable value="#{courseView.getStudentCourses(loginView.email)}" var="courseDto">
                 <f:facet name="header">
                     My Courses
                 </f:facet>
