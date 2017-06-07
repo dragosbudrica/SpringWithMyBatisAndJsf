@@ -30,10 +30,14 @@ public class UserService {
         user.setEmail(email);
         user.setPassword(password);
         user.setRole(role);
-        if (role.equals("Professor"))
-            userMapper.addProfessorUser(user);
-        else
-            userMapper.addStudentUser(user);
+        userMapper.addUser(user);
+        if(role.equals("Student")) {
+            User student = userMapper.findByEmail(email);
+            userMapper.addStudent(student.getUserId());
+        } else {
+            User professor = userMapper.findByEmail(email);
+            userMapper.addProfessor(professor.getUserId());
+        }
     }
 
     public User find(String email) {

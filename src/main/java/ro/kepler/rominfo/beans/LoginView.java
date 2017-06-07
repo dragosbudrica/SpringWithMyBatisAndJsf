@@ -40,6 +40,10 @@ public class LoginView implements Serializable {
         this.userService = userService;
     }
 
+    public UserService getUserService() {
+        return userService;
+    }
+
     /**
      * Method that checks login
      * @return

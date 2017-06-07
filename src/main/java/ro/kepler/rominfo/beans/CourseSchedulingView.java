@@ -177,7 +177,7 @@ public class CourseSchedulingView implements Serializable {
         this.event = event;
     }
 
-    public void addEvent(ActionEvent actionEvent) {
+  /*  public void addEvent(ActionEvent actionEvent) {
         ScheduleEvent se = null;
         for (ScheduleEvent sev: eventModel.getEvents()) {
             if (sev.getTitle().equals(event.getTitle())) {
@@ -218,6 +218,6 @@ public class CourseSchedulingView implements Serializable {
 
     private void addMessage(FacesMessage message) {
         FacesContext.getCurrentInstance().addMessage(null, message);
-    }
+    } */
 }
 

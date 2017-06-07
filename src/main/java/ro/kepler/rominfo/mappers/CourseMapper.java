@@ -16,7 +16,7 @@ public interface CourseMapper {
     List<Course> getAllCourses();
     List<Course> getStudentCourses(@Param("studentId") int studentId);
     List<Course> getStudentCoursesWithDates(@Param("studentId") int studentId);
-    List<Course> getProfessorCourses(@Param("userId") int userId);
+    List<Course> getProfessorCourses(@Param("professorId") int professorId);
     List<Course> getAllCoursesWithDates();
     Course getCourseByName(String courseName);
     void updateCourseSchedule(@Param("courseName") String courseName, @Param("startTime") Date startTime, @Param("endTime") Date endTime);

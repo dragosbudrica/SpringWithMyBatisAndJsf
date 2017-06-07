@@ -90,7 +90,7 @@ public class CourseView implements Serializable {
         }
         return courses;
     }
-
+/*
     public List<CourseDto> getStudentCourses(String email) {
 
         List<Course> myCourses = courseService.getStudentCourses(email);
@@ -105,7 +105,7 @@ public class CourseView implements Serializable {
         }
         return courses;
     }
-
+ */
     public List<CourseDto> getAllCourses() {
 
         List<Course> allCourses = courseService.getAllCourses();

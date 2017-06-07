@@ -24,10 +24,10 @@ public class EnrollmentService {
     }
 
     @Transactional
-    public void enroll(User student, Course course) {
-        ((Student)student).getCourses().add(course);
-        course.getStudents().add((Student)student);
-        enrollmentMapper.addEnrollment(student.getUserId(), course.getCourseCode());
+    public void enroll(Student student, Course course) {
+        student.getCourses().add(course);
+        course.getStudents().add(student);
+        enrollmentMapper.addEnrollment(student.getStudentId(), course.getCourseCode());
     }
 
     public boolean alreadyEnrolled(User student, Course course) {

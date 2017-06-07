@@ -4,6 +4,8 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import ro.kepler.rominfo.model.Professor;
+import ro.kepler.rominfo.model.Student;
 import ro.kepler.rominfo.model.User;
 
 import java.util.List;
@@ -15,14 +17,20 @@ import java.util.List;
 @Repository
 public interface UserMapper {
 
-    @Transactional(propagation = Propagation.SUPPORTS)
     List<User> getAllUsers();
 
     @Transactional
-    void addProfessorUser(User user);
+    void addUser(User user);
 
     @Transactional
-    void addStudentUser(User user);
+    void addStudent(@Param("userId") int userId);
+
+    @Transactional
+    void addProfessor(@Param("userId") int userId);
 
     User findByEmail(@Param("email") String email);
+
+    Student findStudentByEmail(@Param("email") String email);
+
+    Professor findProfessorByEmail(@Param("email") String email);
 }

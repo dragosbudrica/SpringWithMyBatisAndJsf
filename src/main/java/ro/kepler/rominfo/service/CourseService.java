@@ -7,9 +7,8 @@ import ro.kepler.rominfo.mappers.CourseMapper;
 import ro.kepler.rominfo.mappers.UserMapper;
 import ro.kepler.rominfo.model.Course;
 import ro.kepler.rominfo.model.Professor;
-import ro.kepler.rominfo.model.Student;
+import ro.kepler.rominfo.model.User;
 
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -20,14 +19,12 @@ import java.util.List;
 public class CourseService {
 
     private CourseMapper courseMapper;
-    private UserMapper studentMapper;
-    private UserMapper professorMapper;
+    private UserMapper userMapper;
 
     @Autowired
-    public CourseService(UserMapper professorMapper, CourseMapper courseMapper, UserMapper studentMapper) {
-        this.professorMapper = professorMapper;
+    public CourseService(UserMapper userMapper, CourseMapper courseMapper) {
+        this.userMapper = userMapper;
         this.courseMapper = courseMapper;
-        this.studentMapper = studentMapper;
     }
 
     public List<Course> getAllCourses() {
@@ -38,32 +35,32 @@ public class CourseService {
         return courseMapper.getAllCoursesWithDates();
     }
 
-    public List<Course> getStudentCoursesWithDates(String email) {
-        Student student = (Student)studentMapper.findByEmail(email);
+ /*   public List<Course> getStudentCoursesWithDates(String email) {
+        Student student = studentMapper.findByEmail(email);
         return courseMapper.getStudentCoursesWithDates(student.getUserId());
     }
 
     public List<Course> getStudentCourses(String email) {
         Student student = (Student)studentMapper.findByEmail(email);
         return courseMapper.getStudentCourses(student.getUserId());
-    }
+    } */
 
     public List<Course> getProfessorCourses(String email) {
-        Professor professor = (Professor)professorMapper.findByEmail(email);
-        return courseMapper.getProfessorCourses(professor.getUserId());
+        Professor professor = userMapper.findProfessorByEmail(email);
+        return courseMapper.getProfessorCourses(professor.getProfessorId());
     }
-
+/*
     public Course getCourseByName(String courseName) {
         return courseMapper.getCourseByName(courseName);
     }
 
     public void setTime(String courseName, Date startTime, Date endTime) {
         courseMapper.updateCourseSchedule(courseName, startTime, endTime);
-    }
+    } */
 
     public void addCourse(String courseName, String category, String email) {
-        Professor professor = (Professor)professorMapper.findByEmail(email);
-        courseMapper.addCourse(courseName, category, professor.getUserId());
+        Professor professor = userMapper.findProfessorByEmail(email);
+        courseMapper.addCourse(courseName, category, professor.getProfessorId());
     }
 
 }

@@ -12,20 +12,14 @@
         <result property="email" column="email"/>
         <result property="password" column="password"/>
         <result property="role" column="role"/>
-        <discriminator javaType="java.lang.String" column="role">
-            <case value="Professor" resultMap="ProfessorResult"/>
-            <case value="Student" resultMap="StudentResult"/>
-        </discriminator>
     </resultMap>
 
-    <resultMap type="Professor" id="ProfessorResult" extends="UserResult">
-        <result property="entitling" column="entitling"/>
-        <result property="department" column="department"/>
+    <resultMap type="Student" id="StudentResult">
+        <id property="studentId" column="studentid"/>
     </resultMap>
 
-    <resultMap type="Student" id="StudentResult" extends="UserResult">
-        <result property="yearOfStudy" column="yearofstudy"/>
-        <result property="specialization" column="specialization"/>
+    <resultMap type="Professor" id="ProfessorResult">
+        <id property="professorId" column="professorid"/>
     </resultMap>
 
     <select id="getAllUsers" resultMap="UserResult">
@@ -51,14 +45,19 @@
         WHERE u.userid=#{userId}
     </select>
 
-    <insert id = "addProfessorUser">
-        insert into "professor" (email, password, firstname, lastname, ssn, role)
+    <insert id = "addUser">
+        insert into "user" (email, password, firstname, lastname, ssn, role)
         VALUES (#{email},#{password},#{firstName},#{lastName},#{ssn},#{role});
     </insert>
 
-    <insert id = "addStudentUser">
-        insert into "student" (email, password, firstname, lastname, ssn, role)
-        VALUES (#{email},#{password},#{firstName},#{lastName},#{ssn},#{role});
+    <insert id = "addStudent">
+        insert into "student" (userid)
+        VALUES (#{userId});
+    </insert>
+
+    <insert id = "addProfessor">
+        insert into "professor" (userid)
+        VALUES (#{userId});
     </insert>
 
     <select id="findByEmail" resultMap="UserResult">
@@ -72,6 +71,24 @@
         FROM public."user" u
         WHERE u."email"=#{email}
     </select>
+
+    <select id="findStudentByEmail" resultMap="StudentResult">
+        SELECT s."studentid" AS studentId
+        FROM public."student" s
+        INNER JOIN public."user" u
+        ON s.userid = u.userid
+        WHERE u."email"=#{email}
+    </select>
+
+    <select id="findProfessorByEmail" resultMap="ProfessorResult">
+        SELECT p."professorid" AS professorId
+        FROM public."professor" p
+        INNER JOIN public."user" u
+        ON p.userid = u.userid
+        WHERE u."email"=#{email}
+    </select>
+
+
 
 
 </mapper>

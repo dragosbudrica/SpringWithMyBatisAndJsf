@@ -7,7 +7,8 @@ import java.util.List;
 /**
  * Created by Dragos on 15.05.2017.
  */
-public class Student extends User {
+public class Student {
+    private int studentId;
     private int yearOfStudy;
     private String specialization;
 
@@ -15,6 +16,14 @@ public class Student extends User {
 
     public List<Course> getCourses() {
         return courses;
+    }
+
+    public int getStudentId() {
+        return studentId;
+    }
+
+    public void setStudentId(int studentId) {
+        this.studentId = studentId;
     }
 
     public void setCourses(List<Course> courses) {

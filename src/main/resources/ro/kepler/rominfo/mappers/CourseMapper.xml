@@ -44,9 +44,12 @@
     <select id="getAllCourses" resultMap="CourseResult">
         SELECT
         c."coursecode" as courseCode, c."coursename" AS courseName, c."category" AS category,
-        p."firstname" as prof_firstname, p."lastname" as prof_lastname, p."userid" as prof_professorid
-        FROM public."course" c INNER JOIN professor p
-        ON p.userid = c.professorId
+        u."firstname" as prof_firstname, u."lastname" as prof_lastname, u."userid" as prof_userid
+        FROM public."course" c
+        INNER JOIN professor p
+        ON p.professorid = c.professorId
+        INNER JOIN public."user" u
+        ON p.userid = u.userid
     </select>
 
     <select id="getStudentCourses" resultMap="CourseResult">
@@ -95,8 +98,8 @@
         c."category" AS category
         FROM public."course" c
         INNER JOIN professor p
-        ON c.professorid = p.userid
-        WHERE p."userid" = #{userId}
+        ON c.professorid = p.professorid
+        WHERE p."professorid" = #{professorId}
     </select>
 
     <update id="updateCourseSchedule" >

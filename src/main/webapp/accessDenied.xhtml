@@ -11,11 +11,14 @@
 </h:head>
 <h:body>
     <h:form id="accessDenied">
-        <pre>
+        <h1>
+            HTTP Error 401 Unauthorized
+        </h1>
+        <h3>
         We are sorry, but you are not authorized to view this page.
-        Please return to the <h:commandLink action="#{loginView.logout}">Login </h:commandLink>page.
+        Please return to the <h:commandLink action="login.xhtml?faces-redirect=true">Login </h:commandLink>page.
         Thank you.
-        </pre>
+        </h3>
     </h:form>
 </h:body>
 </html>
