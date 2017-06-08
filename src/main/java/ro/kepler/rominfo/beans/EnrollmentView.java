@@ -6,9 +6,10 @@ import org.primefaces.context.RequestContext;
 import ro.kepler.rominfo.dto.CourseDto;
 import ro.kepler.rominfo.model.Course;
 import ro.kepler.rominfo.model.Student;
+import ro.kepler.rominfo.model.User;
 import ro.kepler.rominfo.service.CourseService;
 import ro.kepler.rominfo.service.EnrollmentService;
-import ro.kepler.rominfo.service.StudentService;
+import ro.kepler.rominfo.service.UserService;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -25,8 +26,8 @@ import java.io.Serializable;
 @ViewScoped
 public class EnrollmentView implements Serializable {
 
-    @ManagedProperty("#{studentService}")
-    private StudentService studentService;
+    @ManagedProperty("#{userService}")
+    private UserService userService;
 
     @ManagedProperty("#{courseService}")
     private CourseService courseService;
@@ -38,8 +39,6 @@ public class EnrollmentView implements Serializable {
         this.courseService = courseService;
     }
 
-
-
     public void setEnrollmentService(EnrollmentService enrollmentService) {
         this.enrollmentService = enrollmentService;
     }
@@ -47,24 +46,23 @@ public class EnrollmentView implements Serializable {
     private static final Log LOGGER = LogFactory.getLog(EnrollmentView.class);
 
 
-    public void setStudentService(StudentService studentService) {
-        this.studentService = studentService;
+    public void setUserService(UserService userService) {
+        this.userService = userService;
     }
 
     public String enroll(String email, CourseDto courseDto) {
-        Student student = studentService.getStudentByEmail(email);
+        Student student = userService.findStudent(email);
         Course course = courseService.getCourseByName(courseDto.getCourseName());
 
         try {
             if(!enrollmentService.alreadyEnrolled(student, course)) {
                 enrollmentService.enroll(student, course);
-                LOGGER.info("enrollment successful for " + student.getEmail());
                 RequestContext.getCurrentInstance().showMessageInDialog(new FacesMessage(FacesMessage.SEVERITY_INFO, "Enrollment Successful", "Now you have enrolled to " + courseDto.getCourseName() + " course!"));
                 RequestContext.getCurrentInstance().execute("PF('courseDialog').hide();");
                 return "success";
             }
             else {
-                LOGGER.info("student already enrolled for this course");
+                LOGGER.info("student already enrolled at this course");
                 RequestContext.getCurrentInstance().showMessageInDialog(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Enrollment Failed", "You are already enrolled at that course!"));
                 RequestContext.getCurrentInstance().execute("PF('courseDialog').hide();");
                 return "failed";

@@ -2,7 +2,9 @@ package ro.kepler.rominfo.beans;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import ro.kepler.rominfo.service.StudentService;
+import ro.kepler.rominfo.model.User;
+import ro.kepler.rominfo.service.UserService;
+
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -18,14 +20,15 @@ import java.io.Serializable;
 @ViewScoped
 public class RegisterView implements Serializable {
 
-    @ManagedProperty("#{studentService}")
-    private StudentService studentService;
+    @ManagedProperty("#{userService}")
+    private UserService userService;
 
     private String firstName;
     private String lastName;
     private long ssn;
     private String email;
     private String password;
+    private String role;
 
     public String getFirstName() {
         return firstName;
@@ -67,19 +70,29 @@ public class RegisterView implements Serializable {
         this.password = password;
     }
 
-    private static final Log LOGGER = LogFactory.getLog(RegisterView.class);
-
-    public static final String LOGIN_PAGE_REDIRECT = "login.xhtml?faces-redirect=true";
-
-    public void setStudentService(StudentService studentService) {
-        this.studentService = studentService;
+    public String getRole() {
+        return role;
     }
 
-    public String register() {
-        if(!studentService.find(email)) {
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    private static final Log LOGGER = LogFactory.getLog(RegisterView.class);
+
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
+
+    public void register() {
+        User user = userService.findUser(email);
+        if(user == null) {
+            userService.addUser(firstName, lastName, ssn, email, password, role);
             LOGGER.info("register successful for " + email);
-            studentService.addStudent(firstName, lastName, ssn, email, password);
-            return LOGIN_PAGE_REDIRECT;
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_INFO,
+                            "Register successful. That account has been created.",
+                            "That account have been created."));
         }
         else {
             LOGGER.info("register failed for " + email);
@@ -87,7 +100,6 @@ public class RegisterView implements Serializable {
                     new FacesMessage(FacesMessage.SEVERITY_WARN,
                             "Register failed. That email is already used.",
                             "That email is already used."));
-            return null;
         }
     }
 }

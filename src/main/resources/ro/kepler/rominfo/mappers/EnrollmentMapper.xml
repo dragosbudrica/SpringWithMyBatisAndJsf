@@ -29,7 +29,7 @@
         FROM course c
         INNER JOIN enrollment e
         ON c.coursecode = e.coursecode
-        INNER JOIN student s
+        INNER JOIN public."student" s
         ON e.studentid = s.studentid
         WHERE s.studentid =#{studentId}
     </select>
@@ -38,10 +38,5 @@
         INSERT INTO enrollment (studentid, coursecode)
         values (#{studentId},#{courseCode})
     </insert>
-
-    <select id="find">
-
-
-    </select>
 
 </mapper>

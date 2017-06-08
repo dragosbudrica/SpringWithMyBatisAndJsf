@@ -27,7 +27,7 @@
     </ui:define>
     <ui:define name="content">
         <h:form id="form">
-            <p:dataTable value="#{studentCourseView.getAllCourses()}" var="courseDto">
+            <p:dataTable value="#{courseView.getAllCourses()}" var="courseDto">
                 <f:facet name="header">
                     List of Courses
                 </f:facet>
@@ -48,7 +48,7 @@
                 <p:column style="width:32px;text-align: center">
                     <p:commandButton update=":form:courseDetail" oncomplete="PF('courseDialog').show()"
                                      icon="ui-icon-search" title="View">
-                        <f:setPropertyActionListener value="#{courseDto}" target="#{studentCourseView.selectedCourse}"/>
+                        <f:setPropertyActionListener value="#{courseDto}" target="#{courseView.selectedCourse}"/>
                     </p:commandButton>
                 </p:column>
             </p:dataTable>
@@ -56,24 +56,24 @@
                       hideEffect="fade"
                       resizable="false" closable="false ">
                 <p:outputPanel id="courseDetail" style="text-align:center;">
-                    <p:panelGrid columns="2" rendered="#{not empty studentCourseView.selectedCourse}"
+                    <p:panelGrid columns="2" rendered="#{not empty courseView.selectedCourse}"
                                  columnClasses="label,value">
 
                         <h:outputText value="Name:"/>
-                        <h:outputText value="#{studentCourseView.selectedCourse.courseName}"/>
+                        <h:outputText value="#{courseView.selectedCourse.courseName}"/>
 
                         <h:outputText value="Category"/>
-                        <h:outputText value="#{studentCourseView.selectedCourse.category}"/>
+                        <h:outputText value="#{courseView.selectedCourse.category}"/>
 
                         <h:outputText value="Professor:"/>
-                        <h:outputText value="#{studentCourseView.selectedCourse.professor}"/>
+                        <h:outputText value="#{courseView.selectedCourse.professor}"/>
 
                     </p:panelGrid>
                 </p:outputPanel>
                 <f:facet name="footer">
                     <h:panelGroup columns="2" columnClasses="button,button">
                         <p:commandButton value="Enroll"
-                                         actionListener="#{enrollmentView.enroll(loginView.email, studentCourseView.selectedCourse)}"/>
+                                         actionListener="#{enrollmentView.enroll(loginView.email, courseView.selectedCourse)}"/>
                         <p:commandButton style="float:right" value="Cancel" onclick="PF('courseDialog').hide();"/>
                     </h:panelGroup>
                 </f:facet>

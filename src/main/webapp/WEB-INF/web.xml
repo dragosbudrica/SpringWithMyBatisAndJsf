@@ -14,13 +14,12 @@
     <param-value>.xhtml</param-value>
   </context-param>
 
-  <!-- login filter -->
+
   <filter>
     <filter-name>login</filter-name>
     <filter-class>ro.kepler.rominfo.filter.LoginFilter</filter-class>
   </filter>
-  <!-- set the login filter to secure all the pages in the /secured/* path
-      of the application -->
+
   <filter-mapping>
     <filter-name>login</filter-name>
     <url-pattern>/secured/*</url-pattern>
@@ -53,14 +52,4 @@
     <servlet-name>Faces Servlet</servlet-name>
     <url-pattern>*.xhtml</url-pattern>
   </servlet-mapping>
-
-  <security-role>
-    <role-name>student</role-name>
-  </security-role>
-
-  <security-role>
-    <role-name>professor</role-name>
-  </security-role>
-
-
 </web-app>

@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ro.kepler.rominfo.mappers.EnrollmentMapper;
 import ro.kepler.rominfo.model.Course;
 import ro.kepler.rominfo.model.Student;
+import ro.kepler.rominfo.model.User;
 
 import java.util.List;
 

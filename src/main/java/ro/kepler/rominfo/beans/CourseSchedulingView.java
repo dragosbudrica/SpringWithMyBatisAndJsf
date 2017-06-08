@@ -30,6 +30,13 @@ public class CourseSchedulingView implements Serializable {
     @ManagedProperty("#{courseService}")
     private CourseService courseService;
 
+    @ManagedProperty("#{loginView}")
+    private LoginView loginView;
+
+    public void setLoginView(LoginView loginView) {
+        this.loginView = loginView;
+    }
+
     public void setCourseService(CourseService courseService) {
         this.courseService = courseService;
     }
@@ -52,6 +59,18 @@ public class CourseSchedulingView implements Serializable {
         }
         return courses;
     }
+
+   /* public List<String> getProfessorCourseTitles(String email) {
+
+        List<Course> myCourses =  courseService.getProfessorCourses(email);
+        List<String> courses = new ArrayList<String>();
+
+        for (Course currentCourse : myCourses) {
+            String courseName = currentCourse.getCourseName();
+            courses.add(courseName);
+        }
+        return courses;
+    } */
 
     @PostConstruct
     public void init() {
@@ -165,7 +184,7 @@ public class CourseSchedulingView implements Serializable {
         this.event = event;
     }
 
-    public void addEvent(ActionEvent actionEvent) {
+  /*  public void addEvent(ActionEvent actionEvent) {
         ScheduleEvent se = null;
         for (ScheduleEvent sev: eventModel.getEvents()) {
             if (sev.getTitle().equals(event.getTitle())) {
@@ -206,6 +225,6 @@ public class CourseSchedulingView implements Serializable {
 
     private void addMessage(FacesMessage message) {
         FacesContext.getCurrentInstance().addMessage(null, message);
-    }
+    } */
 }
 

@@ -1,0 +1,53 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/templates/ui-template.xhtml">
+    <ui:define name="title">
+        <title>Add New Course</title>
+    </ui:define>
+    <ui:define name="menu">
+        <h:form>
+            <p:outputPanel id="menuPanel" layout="block">
+                <p:menu autoSubmenuDisplay="true"
+                        style="width:213px;height:483px;border:none;font-size:small;padding:0px;"
+                        ajax="false" type="sliding" backLabel="#{msg['menu.back']}">
+                    <p:submenu label="Pages" icon="ui-icon ui-icon-refresh">
+                        <p:menuitem>
+                            <h:commandLink action="/secured/professorCourses.xhtml?faces-redirect=true" value="My Courses"/>
+                        </p:menuitem>
+                        <p:menuitem>
+                            <h:commandLink action="/secured/timetable.xhtml?faces-redirect=true" value="Timetable"/>
+                        </p:menuitem>
+                    </p:submenu>
+                </p:menu>
+            </p:outputPanel>
+        </h:form>
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form id="addNewCourseForm">
+            <p:messages id="messages" showDetail="false"/>
+            <p:panel id="panel" header="Add New Course">
+                <h:panelGrid columns="3" cellpadding="6">
+                    <p:outputLabel for="courseName" value="Course Name:"/>
+                    <p:inputText id="courseName" value="#{courseView.courseName}"
+                                 required="true" label="Course name">
+                        <f:validateLength minimum="3"/>
+                    </p:inputText>
+                    <p:message for="courseName" display="icon"/>
+
+                    <p:outputLabel for="category" value="Category:"/>
+                    <p:inputText id="category" value="#{courseView.category}"
+                                 required="true" label="Category">
+                        <f:validateLength minimum="3"/>
+                    </p:inputText>
+                    <p:message for="category" display="icon"/>
+                </h:panelGrid>
+                <p:commandButton value="Add Course" update="panel messages"
+                                 action="#{courseView.addCourse}"/>
+            </p:panel>
+        </h:form>
+    </ui:define>
+</ui:composition>

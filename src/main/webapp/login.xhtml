@@ -20,12 +20,12 @@
         <p:panel id="panel" header="Login">
 
             <h:panelGrid columns="3" cellpadding="5">
-                <p:outputLabel for="userName" value="User Name:" />
-                <p:inputText id="userName" value="#{loginView.email}"
-                             required="true" label="User name">
+                <p:outputLabel for="email" value="Email:" />
+                <p:inputText id="email" value="#{loginView.email}"
+                             required="true" label="Email">
                     <f:validateLength minimum="3" />
                 </p:inputText>
-                <p:message for="userName" display="icon" />
+                <p:message for="email" display="icon" />
 
                 <p:outputLabel for="password" value="Password:" />
                 <p:password id="password"

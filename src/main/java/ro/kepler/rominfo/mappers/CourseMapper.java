@@ -20,5 +20,5 @@ public interface CourseMapper {
     List<Course> getAllCoursesWithDates();
     Course getCourseByName(String courseName);
     void updateCourseSchedule(@Param("courseName") String courseName, @Param("startTime") Date startTime, @Param("endTime") Date endTime);
-  //  void addCourse(Course course);
+    void addCourse(@Param("courseName")String courseName, @Param("category") String category, @Param("professorId") int professorId);
 }

@@ -12,7 +12,7 @@ public class Course implements Serializable {
     private int courseCode;
     private String courseName;
     private String category;
-    private  Professor professor;
+    private User professor;
     private Date startTime;
     private Date endTime;
 
@@ -66,11 +66,11 @@ public class Course implements Serializable {
         this.category = category;
     }
 
-    public Professor getProfessor() {
+    public User getProfessor() {
         return professor;
     }
 
-    public void setProfessor(Professor professor) {
+    public void setProfessor(User professor) {
         this.professor = professor;
     }
 }

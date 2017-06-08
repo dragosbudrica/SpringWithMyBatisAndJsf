@@ -13,17 +13,17 @@
         <association property="professor" resultMap="ProfessorResult" columnPrefix="prof_"/>
     </resultMap>
 
-    <resultMap type="Professor" id="ProfessorResult">
-        <id property="professorId" column="professorId"/>
+    <resultMap type="User" id="ProfessorResult">
+        <id property="userId" column="userid"/>
         <result property="firstName" column="firstname"/>
         <result property="lastName" column="lastname"/>
     </resultMap>
-
 
     <resultMap type="Course" id="CourseResultProf">
         <id property="courseCode" column="coursecode"/>
         <result property="courseName" column="coursename"/>
         <result property="category" column="category"/>
+        <association property="professor" resultMap="ProfessorResult" columnPrefix="prof_"/>
     </resultMap>
 
     <select id="getCourseByCode" parameterType="int" resultMap="CourseResult">
@@ -43,18 +43,23 @@
     <select id="getAllCourses" resultMap="CourseResult">
         SELECT
         c."coursecode" as courseCode, c."coursename" AS courseName, c."category" AS category,
-        p."firstname" as prof_firstname, p."lastname" as prof_lastname, p."professorid" as prof_professorid
-        FROM public."course" c INNER JOIN professor p
-        ON p.professorId = c.professorId
+        u."firstname" as prof_firstname, u."lastname" as prof_lastname, u."userid" as prof_userid
+        FROM public."course" c
+        INNER JOIN professor p
+        ON p.professorid = c.professorId
+        INNER JOIN public."user" u
+        ON p.userid = u.userid
     </select>
 
     <select id="getStudentCourses" resultMap="CourseResult">
         SELECT
         c."coursecode" as courseCode, c."coursename" AS courseName, c."category" AS category,
-        p."firstname" as prof_firstname, p."lastname" as prof_lastname, p."professorid" as prof_professorid
+        u."firstname" as prof_firstname, u."lastname" as prof_lastname, u."userid" as prof_userid
         FROM public."course" c
         INNER JOIN professor p
-        ON p.professorId = c.professorId
+        ON c.professorid = p.professorid
+        INNER JOIN public."user" u
+        ON p.userid = u.userid
         INNER JOIN enrollment e
         ON c.coursecode = e.coursecode
         INNER JOIN student s
@@ -68,10 +73,12 @@
         c."coursename" AS courseName,
         c."starttime" AS startTime,
         c."endtime" AS endTime,
-        p."firstname" as prof_firstname, p."lastname" as prof_lastname, p."professorid" as prof_professorid
+        u."firstname" as prof_firstname, u."lastname" as prof_lastname, u."userid" as prof_userid
         FROM public."course" c
         INNER JOIN professor p
-        ON p.professorId = c.professorId
+        ON c.professorid = p.professorId
+        INNER JOIN public."user" u
+        ON p.userid = u.userid
         INNER JOIN enrollment e
         ON c.coursecode = e.coursecode
         INNER JOIN student s
@@ -104,5 +111,10 @@
             "endtime" = #{endTime}
         where "coursename" = #{courseName}
     </update>
+
+    <insert id = "addCourse">
+        insert into "course" (coursename, category, professorid)
+        VALUES (#{courseName},#{category},#{professorId});
+    </insert>
 
 </mapper>
