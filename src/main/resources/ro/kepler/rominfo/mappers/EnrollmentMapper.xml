@@ -30,8 +30,8 @@
         INNER JOIN enrollment e
         ON c.coursecode = e.coursecode
         INNER JOIN public."student" s
-        ON e.studentid = s.userid
-        WHERE s.userid =#{studentId}
+        ON e.studentid = s.studentid
+        WHERE s.studentid =#{studentId}
     </select>
 
     <insert id="addEnrollment">

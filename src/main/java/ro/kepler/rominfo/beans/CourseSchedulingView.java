@@ -30,6 +30,13 @@ public class CourseSchedulingView implements Serializable {
     @ManagedProperty("#{courseService}")
     private CourseService courseService;
 
+    @ManagedProperty("#{loginView}")
+    private LoginView loginView;
+
+    public void setLoginView(LoginView loginView) {
+        this.loginView = loginView;
+    }
+
     public void setCourseService(CourseService courseService) {
         this.courseService = courseService;
     }

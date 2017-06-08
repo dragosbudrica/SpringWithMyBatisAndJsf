@@ -44,7 +44,7 @@ public class LoginFilter implements Filter {
             if (loginView.isLoggedIn()) {
                 LOGGER.debug("user is logged in");
                 // user is logged in, continue request
-                User user = loginView.getUserService().find(loginView.getEmail());
+                User user = loginView.getUserService().findUser(loginView.getEmail());
                 String pageRequested = ((HttpServletRequest) servletRequest).getRequestURL().toString();
                 LOGGER.info(user.getRole());
                 LOGGER.info(pageRequested);

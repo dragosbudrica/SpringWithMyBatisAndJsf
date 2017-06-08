@@ -7,6 +7,7 @@ import ro.kepler.rominfo.mappers.CourseMapper;
 import ro.kepler.rominfo.mappers.UserMapper;
 import ro.kepler.rominfo.model.Course;
 import ro.kepler.rominfo.model.Professor;
+import ro.kepler.rominfo.model.Student;
 import ro.kepler.rominfo.model.User;
 
 import java.util.List;
@@ -35,26 +36,24 @@ public class CourseService {
         return courseMapper.getAllCoursesWithDates();
     }
 
- /*   public List<Course> getStudentCoursesWithDates(String email) {
-        Student student = studentMapper.findByEmail(email);
-        return courseMapper.getStudentCoursesWithDates(student.getUserId());
-    }
-
+/*   public List<Course> getStudentCoursesWithDates(String email) {
+        Student student = userMapper.findStudentByEmail(email);
+        return courseMapper.getStudentCoursesWithDates(student.getStudentId());
+    }*/
     public List<Course> getStudentCourses(String email) {
-        Student student = (Student)studentMapper.findByEmail(email);
-        return courseMapper.getStudentCourses(student.getUserId());
-    } */
+        Student student = userMapper.findStudentByEmail(email);
+        return courseMapper.getStudentCourses(student.getStudentId());
+    }
 
     public List<Course> getProfessorCourses(String email) {
         Professor professor = userMapper.findProfessorByEmail(email);
         return courseMapper.getProfessorCourses(professor.getProfessorId());
     }
-/*
     public Course getCourseByName(String courseName) {
         return courseMapper.getCourseByName(courseName);
     }
 
-    public void setTime(String courseName, Date startTime, Date endTime) {
+  /*  public void setTime(String courseName, Date startTime, Date endTime) {
         courseMapper.updateCourseSchedule(courseName, startTime, endTime);
     } */
 

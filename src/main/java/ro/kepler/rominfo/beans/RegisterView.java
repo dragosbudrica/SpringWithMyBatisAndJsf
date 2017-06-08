@@ -85,7 +85,7 @@ public class RegisterView implements Serializable {
     }
 
     public void register() {
-        User user = userService.find(email);
+        User user = userService.findUser(email);
         if(user == null) {
             userService.addUser(firstName, lastName, ssn, email, password, role);
             LOGGER.info("register successful for " + email);

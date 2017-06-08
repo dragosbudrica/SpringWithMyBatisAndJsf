@@ -49,7 +49,7 @@ public class LoginView implements Serializable {
      * @return
      */
     public String login() {
-        User user = userService.find(email);
+        User user = userService.findUser(email);
         if (user != null) {
             ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
             Map<String, Object> sessionMap = externalContext.getSessionMap();

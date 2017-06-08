@@ -5,6 +5,7 @@ import org.apache.commons.logging.LogFactory;
 import org.primefaces.context.RequestContext;
 import ro.kepler.rominfo.dto.CourseDto;
 import ro.kepler.rominfo.model.Course;
+import ro.kepler.rominfo.model.Student;
 import ro.kepler.rominfo.model.User;
 import ro.kepler.rominfo.service.CourseService;
 import ro.kepler.rominfo.service.EnrollmentService;
@@ -49,20 +50,19 @@ public class EnrollmentView implements Serializable {
         this.userService = userService;
     }
 
-/*    public String enroll(String email, CourseDto courseDto) {
-        User student = userService.find(email);
+    public String enroll(String email, CourseDto courseDto) {
+        Student student = userService.findStudent(email);
         Course course = courseService.getCourseByName(courseDto.getCourseName());
 
         try {
             if(!enrollmentService.alreadyEnrolled(student, course)) {
                 enrollmentService.enroll(student, course);
-                LOGGER.info("enrollment successful for " + student.getEmail());
                 RequestContext.getCurrentInstance().showMessageInDialog(new FacesMessage(FacesMessage.SEVERITY_INFO, "Enrollment Successful", "Now you have enrolled to " + courseDto.getCourseName() + " course!"));
                 RequestContext.getCurrentInstance().execute("PF('courseDialog').hide();");
                 return "success";
             }
             else {
-                LOGGER.info("student already enrolled for this course");
+                LOGGER.info("student already enrolled at this course");
                 RequestContext.getCurrentInstance().showMessageInDialog(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Enrollment Failed", "You are already enrolled at that course!"));
                 RequestContext.getCurrentInstance().execute("PF('courseDialog').hide();");
                 return "failed";
@@ -77,5 +77,5 @@ public class EnrollmentView implements Serializable {
                             "The enrollment process has failed."));
             return null;
         }
-    }*/
+    }
 }

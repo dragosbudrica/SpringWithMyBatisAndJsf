@@ -19,7 +19,6 @@
         <result property="lastName" column="lastname"/>
     </resultMap>
 
-
     <resultMap type="Course" id="CourseResultProf">
         <id property="courseCode" column="coursecode"/>
         <result property="courseName" column="coursename"/>
@@ -55,15 +54,17 @@
     <select id="getStudentCourses" resultMap="CourseResult">
         SELECT
         c."coursecode" as courseCode, c."coursename" AS courseName, c."category" AS category,
-        p."firstname" as prof_firstname, p."lastname" as prof_lastname, p."userid" as prof_professorid
+        u."firstname" as prof_firstname, u."lastname" as prof_lastname, u."userid" as prof_userid
         FROM public."course" c
         INNER JOIN professor p
-        ON p.userid = c.professorId
+        ON c.professorid = p.professorid
+        INNER JOIN public."user" u
+        ON p.userid = u.userid
         INNER JOIN enrollment e
         ON c.coursecode = e.coursecode
         INNER JOIN student s
-        ON e.studentid = s.userid
-        WHERE s."userid" = #{studentId}
+        ON e.studentid = s.studentid
+        WHERE s."studentid" = #{studentId}
     </select>
 
     <select id="getStudentCoursesWithDates" resultMap="CourseResult">
@@ -72,15 +73,17 @@
         c."coursename" AS courseName,
         c."starttime" AS startTime,
         c."endtime" AS endTime,
-        p."firstname" as prof_firstname, p."lastname" as prof_lastname, p."userid" as prof_professorid
+        u."firstname" as prof_firstname, u."lastname" as prof_lastname, u."userid" as prof_userid
         FROM public."course" c
         INNER JOIN professor p
-        ON p.userid = c.professorId
+        ON c.professorid = p.professorId
+        INNER JOIN public."user" u
+        ON p.userid = u.userid
         INNER JOIN enrollment e
         ON c.coursecode = e.coursecode
         INNER JOIN student s
-        ON e.studentid = s.userid
-        WHERE s."userid" = #{studentId}
+        ON e.studentid = s.studentid
+        WHERE s."studentid" = #{studentId}
     </select>
 
     <select id="getAllCoursesWithDates" resultMap="CourseResult">

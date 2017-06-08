@@ -30,8 +30,8 @@ public class EnrollmentService {
         enrollmentMapper.addEnrollment(student.getStudentId(), course.getCourseCode());
     }
 
-    public boolean alreadyEnrolled(User student, Course course) {
-        for (Course currentCourse : enrollmentMapper.getCoursesOfStudent(student.getUserId())) {
+    public boolean alreadyEnrolled(Student student, Course course) {
+        for (Course currentCourse : enrollmentMapper.getCoursesOfStudent(student.getStudentId())) {
             if(currentCourse.getCourseCode() == course.getCourseCode())
                 return true;
         }

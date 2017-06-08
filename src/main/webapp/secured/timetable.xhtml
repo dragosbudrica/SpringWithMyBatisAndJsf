@@ -15,10 +15,12 @@
                         ajax="false" type="sliding" backLabel="#{msg['menu.back']}">
                     <p:submenu label="Pages" icon="ui-icon ui-icon-refresh">
                         <p:menuitem>
-                            <h:commandLink action="/secured/allCourses.xhtml?faces-redirect=true" value="All Courses"/>
+                            <h:commandLink rendered="#{timetableView.isStudent()}" action="/secured/allCourses.xhtml?faces-redirect=true" value="All Courses"/>
+                            <h:commandLink rendered="#{not timetableView.isStudent()}" action="/secured/addNewCourse.xhtml?faces-redirect=true" value="Add New Course"/>
                         </p:menuitem>
                         <p:menuitem>
-                            <h:commandLink action="/secured/myCourses.xhtml?faces-redirect=true" value="My Courses"/>
+                            <h:commandLink rendered="#{timetableView.isStudent()}" action="/secured/myCourses.xhtml?faces-redirect=true" value="My Courses"/>
+                            <h:commandLink rendered="#{not timetableView.isStudent()}" action="/secured/professorCourses.xhtml?faces-redirect=true" value="My Courses"/>
                         </p:menuitem>
                     </p:submenu>
                 </p:menu>
@@ -31,7 +33,9 @@
 
             <h:panelGrid columnClasses="value">
                 <h3 style="margin-top: 0">Timetable</h3>
-                <p:schedule id="schedule" value="#{timetableView.eventModel}" widgetVar="myschedule" timeZone="GMT+3"/>
+                <h:graphicImage rendered="#{not timetableView.rendered}" value="/resources/images/oops.jpg" />
+                <h:outputText rendered="#{not timetableView.rendered}" value="The timetable is under construction!" />
+                <p:schedule id="schedule" rendered="#{timetableView.rendered}" value="#{timetableView.eventModel}" widgetVar="myschedule" timeZone="GMT+3"/>
             </h:panelGrid>
         </h:form>
         <style type="text/css">
