@@ -4,6 +4,8 @@ package ro.kepler.rominfo.beans;
  * Created by Dragos on 30.05.2017.
  */
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -33,6 +35,9 @@ public class CourseSchedulingView implements Serializable {
     @ManagedProperty("#{loginView}")
     private LoginView loginView;
 
+    private static final String BEGINING_OF_SCHOOL = "2016-10-01";
+    private static final String END_OF_SCHOOL = "2017-06-30";
+
     public void setLoginView(LoginView loginView) {
         this.loginView = loginView;
     }
@@ -49,20 +54,24 @@ public class CourseSchedulingView implements Serializable {
 
         List<Course> allCourses =  courseService.getAllCoursesWithDates();
         List<CourseDto> courses = new ArrayList<CourseDto>();
+        Calendar cal = Calendar.getInstance(); // creates calendar
+
 
         for (Course currentCourse : allCourses) {
             CourseDto courseDto = new CourseDto();
             courseDto.setCourseName(currentCourse.getCourseName());
             courseDto.setStartTime(currentCourse.getStartTime());
-            courseDto.setEndTime(currentCourse.getEndTime());
+            cal.setTime(currentCourse.getStartTime()); // sets start time
+            cal.add(Calendar.HOUR_OF_DAY, 2); // adds two hours
+            courseDto.setEndTime(cal.getTime());
             courses.add(courseDto);
         }
         return courses;
     }
 
-   /* public List<String> getProfessorCourseTitles(String email) {
+    public List<String> getAllCourseTitles() {
 
-        List<Course> myCourses =  courseService.getProfessorCourses(email);
+        List<Course> myCourses =  courseService.getAllCourses();
         List<String> courses = new ArrayList<String>();
 
         for (Course currentCourse : myCourses) {
@@ -70,13 +79,17 @@ public class CourseSchedulingView implements Serializable {
             courses.add(courseName);
         }
         return courses;
-    } */
+    }
 
     @PostConstruct
     public void init() {
         eventModel = new DefaultScheduleModel();
         for (CourseDto course: getAllCoursesWithDates()) {
-            eventModel.addEvent(new DefaultScheduleEvent(course.getCourseName(), course.getStartTime(), course.getEndTime()));
+            if (course.getStartTime() != null) {
+                DefaultScheduleEvent newEvent = new DefaultScheduleEvent(course.getCourseName(), course.getStartTime(), course.getEndTime());
+                newEvent.setEditable(false);
+                eventModel.addEvent(newEvent);
+            }
         }
     }
 
@@ -184,7 +197,7 @@ public class CourseSchedulingView implements Serializable {
         this.event = event;
     }
 
-  /*  public void addEvent(ActionEvent actionEvent) {
+    public void addEvent(ActionEvent actionEvent) {
         ScheduleEvent se = null;
         for (ScheduleEvent sev: eventModel.getEvents()) {
             if (sev.getTitle().equals(event.getTitle())) {
@@ -197,9 +210,42 @@ public class CourseSchedulingView implements Serializable {
             eventModel.updateEvent(event);
         }
         else {
-            eventModel.addEvent(event);
+            List<ScheduleEvent> events = new ArrayList<ScheduleEvent>();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            Calendar c = Calendar.getInstance();
+            c.setTime(event.getStartDate());
+            try {
+                Date beg = sdf.parse(BEGINING_OF_SCHOOL);
+                Date end = sdf.parse(END_OF_SCHOOL);
+                while(c.getTime().compareTo(beg) >= 0) {
+                    Date newStartDate = c.getTime();
+                    c.add(Calendar.HOUR_OF_DAY, 2);
+                    Date newEndDate = c.getTime();
+                    DefaultScheduleEvent backwardRecurrentEvent = new DefaultScheduleEvent(event.getTitle(), newStartDate, newEndDate);
+                    events.add(backwardRecurrentEvent);
+                    c.setTime(newStartDate);
+                    c.add(Calendar.DAY_OF_YEAR, -7);
+                }
+                c.setTime(event.getStartDate());
+                c.add(Calendar.DAY_OF_YEAR, 7);
+                while(c.getTime().compareTo(end) <= 0) {
+                    Date newStartDate = c.getTime();
+                    c.add(Calendar.HOUR_OF_DAY, 2);
+                    Date newEndDate = c.getTime();
+                    DefaultScheduleEvent forwardRecurrentEvent = new DefaultScheduleEvent(event.getTitle(), newStartDate, newEndDate);
+                    events.add(forwardRecurrentEvent);
+                    c.setTime(newStartDate);
+                    c.add(Calendar.DAY_OF_YEAR, 7);
+                }
+                for (ScheduleEvent ev: events) {
+                    eventModel.addEvent(ev);
+                }
+
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
         }
-        courseService.setTime(event.getTitle(), event.getStartDate(), event.getEndDate());
+        courseService.setTime(event.getTitle(), event.getStartDate());
         event = new DefaultScheduleEvent();
     }
 
@@ -225,6 +271,6 @@ public class CourseSchedulingView implements Serializable {
 
     private void addMessage(FacesMessage message) {
         FacesContext.getCurrentInstance().addMessage(null, message);
-    } */
+    }
 }
 
