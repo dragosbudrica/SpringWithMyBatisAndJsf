@@ -11,6 +11,7 @@ import sun.rmi.runtime.Log;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import java.io.Serializable;
@@ -34,6 +35,24 @@ public class CourseView implements Serializable {
     private CourseDto selectedCourse;
     private String courseName;
     private String category;
+    private String description;
+    private int numberOfLectures = 3;
+
+    public void setNumberOfLectures(int numberOfLectures) {
+        this.numberOfLectures = numberOfLectures;
+    }
+
+    public int getNumberOfLectures() {
+        return numberOfLectures;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
     public void setSelectedCourse(CourseDto selectedCourse) {
         this.selectedCourse = selectedCourse;
@@ -70,7 +89,7 @@ public class CourseView implements Serializable {
 
 
     public void addCourse() {
-        courseService.addCourse(courseName, category, loginView.getEmail());
+        courseService.addCourse(courseName, category, numberOfLectures, description, loginView.getEmail());
         FacesContext.getCurrentInstance().addMessage(null,
                 new FacesMessage(FacesMessage.SEVERITY_INFO,
                         "Course added successfully.",
@@ -90,6 +109,7 @@ public class CourseView implements Serializable {
         }
         return courses;
     }
+
     public List<CourseDto> getStudentCourses(String email) {
 
         List<Course> myCourses = courseService.getStudentCourses(email);
@@ -120,4 +140,15 @@ public class CourseView implements Serializable {
         return courses;
     }
 
+    public CourseDto getCourseByName(String courseName) {
+        Course course = courseService.getCourseByName(courseName);
+        CourseDto courseDto = new CourseDto();
+
+        courseDto.setCourseName(course.getCourseName());
+        courseDto.setCategory(course.getCategory());
+        courseDto.setDescription(course.getDescription());
+        courseDto.setNumberOfLectures(course.getNumberOfLectures());
+
+        return courseDto;
+    }
 }

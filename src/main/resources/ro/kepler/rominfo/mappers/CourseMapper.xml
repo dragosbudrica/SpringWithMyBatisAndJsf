@@ -8,6 +8,8 @@
         <id property="courseCode" column="coursecode"/>
         <result property="courseName" column="coursename"/>
         <result property="category" column="category"/>
+        <result property="description" column="description"/>
+        <result property="numberOfLectures" column="numberoflectures"/>
         <result property="startTime" column="starttime"/>
         <result property="endTime" column="endtime"/>
         <association property="professor" resultMap="ProfessorResult" columnPrefix="prof_"/>
@@ -35,7 +37,8 @@
 
     <select id="getCourseByName" parameterType="java.lang.String" resultMap="CourseResult">
         SELECT
-        c."coursecode" as courseCode, c."coursename" AS courseName, c."category" AS category
+        c."coursecode" as courseCode, c."coursename" AS courseName, c."category" AS category,
+        c."description" as description, c.numberoflectures as numberOfLectures
         FROM public."course" c
         WHERE c."coursename"=#{courseName}
     </select>
@@ -46,7 +49,7 @@
         u."firstname" as prof_firstname, u."lastname" as prof_lastname, u."userid" as prof_userid
         FROM public."course" c
         INNER JOIN professor p
-        ON p.professorid = c.professorId
+        ON p.professorid = c.professorid
         INNER JOIN public."user" u
         ON p.userid = u.userid
     </select>
@@ -72,7 +75,6 @@
         c."coursecode" AS courseCode,
         c."coursename" AS courseName,
         c."starttime" AS startTime,
-        c."endtime" AS endTime,
         u."firstname" as prof_firstname, u."lastname" as prof_lastname, u."userid" as prof_userid
         FROM public."course" c
         INNER JOIN professor p
@@ -84,12 +86,13 @@
         INNER JOIN student s
         ON e.studentid = s.studentid
         WHERE s."studentid" = #{studentId}
+        AND c."starttime" NOTNULL
     </select>
 
     <select id="getAllCoursesWithDates" resultMap="CourseResult">
         SELECT
         c."coursecode" as courseCode, c."coursename" AS courseName, c."category" AS category,
-        c."starttime" as startTime, c."endtime" as endTime
+        c."starttime" as startTime
         FROM public."course" c
     </select>
 
@@ -100,21 +103,30 @@
         c."coursename" AS courseName,
         c."category" AS category
         FROM public."course" c
-        INNER JOIN professor p
-        ON c.professorid = p.professorid
-        WHERE p."professorid" = #{professorId}
+        WHERE c."professorid" = #{professorId}
     </select>
 
     <update id="updateCourseSchedule" >
         update public."course" set
-            "starttime" = #{startTime},
-            "endtime" = #{endTime}
+            "starttime" = #{startTime}
         where "coursename" = #{courseName}
     </update>
 
-    <insert id = "addCourse">
-        insert into "course" (coursename, category, professorid)
-        VALUES (#{courseName},#{category},#{professorId});
+   <!-- <insert id="addCourse" parameterType="ro.kepler.rominfo.model.Course">
+        <selectKey order="AFTER" keyProperty="coursecode" resultType="long">
+            SELECT currval('course_coursecode_seq')
+        </selectKey>
+        insert into "course" (coursename, category, numberoflectures, description, professorid)
+        VALUES (#{courseName},#{category},#{numberOfLectures},#{description},#{professorId})
+    </insert>-->
+
+    <insert id="addCourse" parameterType="ro.kepler.rominfo.model.Course">
+        <selectKey order="BEFORE" keyProperty="course.courseCode" keyColumn="course.coursecode" resultType="long">
+            SELECT nextval('course_coursecode_seq')
+        </selectKey>
+        insert into "course" (coursecode, coursename, category, numberoflectures, description, professorid)
+        VALUES (#{course.courseCode}, #{course.courseName},#{course.category},#{course.numberOfLectures},#{course.description},#{course.professorId})
     </insert>
+
 
 </mapper>

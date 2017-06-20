@@ -1,5 +1,6 @@
 package ro.kepler.rominfo.beans;
 
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import ro.kepler.rominfo.filter.LoginFilter;

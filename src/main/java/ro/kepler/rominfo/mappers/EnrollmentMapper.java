@@ -12,6 +12,6 @@ import java.util.List;
 
 @Repository
 public interface EnrollmentMapper {
-    void addEnrollment(@Param("studentId") int studentId, @Param("courseCode") int courseCode);
-    List<Course> getCoursesOfStudent(@Param("studentId") int studentId);
+    void addEnrollment(@Param("studentId") long studentId, @Param("courseCode") long courseCode);
+    List<Course> getCoursesOfStudent(@Param("studentId") long studentId);
 }

@@ -27,8 +27,16 @@
         <property name="dataSource" ref="dataSource" />
     </bean>
 
+    <bean id="multipartResolver"
+          class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="maxUploadSize">
+            <value>10000000</value>
+        </property>
+    </bean>
+
     <tx:annotation-driven transaction-manager="transactionManager" order="1"/>
 
     <!-- DAO BEANS AND MAPPERS-->
     <mybatis:scan base-package="ro.kepler.rominfo.mappers" factory-ref="sqlSessionFactory"/>
+
 </beans>

@@ -6,15 +6,15 @@ import java.io.Serializable;
  * Created by Dragos on 19.05.2017.
  */
 public class Professor {
-    private int professorId;
+    private long professorId;
     private String entitling;
     private String department;
 
-    public int getProfessorId() {
+    public long getProfessorId() {
         return professorId;
     }
 
-    public void setProfessorId(int professorId) {
+    public void setProfessorId(long professorId) {
         this.professorId = professorId;
     }
 

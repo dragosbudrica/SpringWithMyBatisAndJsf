@@ -14,11 +14,12 @@ import java.util.List;
 public interface CourseMapper {
     Course getCourseByCode(int courseCode);
     List<Course> getAllCourses();
-    List<Course> getStudentCourses(@Param("studentId") int studentId);
-    List<Course> getStudentCoursesWithDates(@Param("studentId") int studentId);
-    List<Course> getProfessorCourses(@Param("professorId") int professorId);
+    List<Course> getStudentCourses(@Param("studentId") long studentId);
+    List<Course> getStudentCoursesWithDates(@Param("studentId") long studentId);
+    List<Course> getProfessorCourses(@Param("professorId") long professorId);
     List<Course> getAllCoursesWithDates();
-    Course getCourseByName(String courseName);
-    void updateCourseSchedule(@Param("courseName") String courseName, @Param("startTime") Date startTime, @Param("endTime") Date endTime);
-    void addCourse(@Param("courseName")String courseName, @Param("category") String category, @Param("professorId") int professorId);
+    Course getCourseByName(@Param("courseName") String courseName);
+    void updateCourseSchedule(@Param("courseName") String courseName, @Param("startTime") Date startTime);
+ //   void addCourse(@Param("courseName")String courseName, @Param("category") String category, @Param("numberOfLectures") int numberOfLectures, @Param("description") String description, @Param("professorId") int professorId);
+    void addCourse(@Param("course")Course course);
 }

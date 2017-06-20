@@ -9,12 +9,48 @@ import java.util.List;
  * Created by Dragos on 15.05.2017.
  */
 public class Course implements Serializable {
-    private int courseCode;
+    private long courseCode;
     private String courseName;
     private String category;
     private User professor;
     private Date startTime;
-    private Date endTime;
+    private String description;
+    private int numberOfLectures;
+    private List<Lecture> lectures = new ArrayList<Lecture>();
+    private long professorId;
+
+
+    public void setProfessorId(long professorId) {
+        this.professorId = professorId;
+    }
+
+    public long getProfessorId() {
+        return professorId;
+    }
+
+    public List<Lecture> getLectures() {
+        return lectures;
+    }
+
+    public void setLectures(List<Lecture> lectures) {
+        this.lectures = lectures;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setNumberOfLectures(int numberOfLectures) {
+        this.numberOfLectures = numberOfLectures;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public int getNumberOfLectures() {
+        return numberOfLectures;
+    }
 
     public Date getStartTime() {
         return startTime;
@@ -22,14 +58,6 @@ public class Course implements Serializable {
 
     public void setStartTime(Date startTime) {
         this.startTime = startTime;
-    }
-
-    public Date getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(Date endTime) {
-        this.endTime = endTime;
     }
 
     private List<Student> students = new ArrayList<Student>();
@@ -42,11 +70,11 @@ public class Course implements Serializable {
         this.students = students;
     }
 
-    public int getCourseCode() {
+    public long getCourseCode() {
         return courseCode;
     }
 
-    public void setCourseCode(int courseCode) {
+    public void setCourseCode(long courseCode) {
         this.courseCode = courseCode;
     }
 

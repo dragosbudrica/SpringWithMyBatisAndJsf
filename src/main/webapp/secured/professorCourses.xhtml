@@ -35,7 +35,9 @@
                     <f:facet name="header">
                         Course Name
                     </f:facet>
-                    #{courseDto.courseName}
+                    <h:link value="#{courseDto.courseName}" outcome="courseDetails" >
+                       <f:param name="courseName" value="#{courseDto.courseName}" />
+                    </h:link>
                     <f:facet name="footer">
                     </f:facet>
                 </p:column>

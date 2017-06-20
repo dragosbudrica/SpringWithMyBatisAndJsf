@@ -32,15 +32,8 @@ public class CourseSchedulingView implements Serializable {
     @ManagedProperty("#{courseService}")
     private CourseService courseService;
 
-    @ManagedProperty("#{loginView}")
-    private LoginView loginView;
-
-    private static final String BEGINING_OF_SCHOOL = "2016-10-01";
+    private static final String BEGINNING_OF_SCHOOL = "2016-10-01";
     private static final String END_OF_SCHOOL = "2017-06-30";
-
-    public void setLoginView(LoginView loginView) {
-        this.loginView = loginView;
-    }
 
     public void setCourseService(CourseService courseService) {
         this.courseService = courseService;
@@ -50,7 +43,7 @@ public class CourseSchedulingView implements Serializable {
 
     private ScheduleEvent event = new DefaultScheduleEvent();
 
-    private List<CourseDto> getAllCoursesWithDates() {
+    List<CourseDto> getAllCoursesWithDates() {
 
         List<Course> allCourses =  courseService.getAllCoursesWithDates();
         List<CourseDto> courses = new ArrayList<CourseDto>();
@@ -60,10 +53,12 @@ public class CourseSchedulingView implements Serializable {
         for (Course currentCourse : allCourses) {
             CourseDto courseDto = new CourseDto();
             courseDto.setCourseName(currentCourse.getCourseName());
-            courseDto.setStartTime(currentCourse.getStartTime());
-            cal.setTime(currentCourse.getStartTime()); // sets start time
-            cal.add(Calendar.HOUR_OF_DAY, 2); // adds two hours
-            courseDto.setEndTime(cal.getTime());
+            if(currentCourse.getStartTime() != null) {
+                courseDto.setStartTime(currentCourse.getStartTime());
+                cal.setTime(currentCourse.getStartTime()); // sets start time
+                cal.add(Calendar.HOUR_OF_DAY, 2); // adds two hours
+                courseDto.setEndTime(cal.getTime());
+            }
             courses.add(courseDto);
         }
         return courses;
@@ -88,105 +83,15 @@ public class CourseSchedulingView implements Serializable {
             if (course.getStartTime() != null) {
                 DefaultScheduleEvent newEvent = new DefaultScheduleEvent(course.getCourseName(), course.getStartTime(), course.getEndTime());
                 newEvent.setEditable(false);
-                eventModel.addEvent(newEvent);
+                for (ScheduleEvent ev: getAllRecurrentEvents(newEvent)) {
+                    eventModel.addEvent(ev);
+                }
             }
         }
     }
 
-    public Date getRandomDate(Date base) {
-        Calendar date = Calendar.getInstance();
-        date.setTime(base);
-        date.add(Calendar.DATE, ((int) (Math.random()*30)) + 1);    //set random day of month
-
-        return date.getTime();
-    }
-
-    public Date getInitialDate() {
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(calendar.get(Calendar.YEAR), Calendar.FEBRUARY, calendar.get(Calendar.DATE), 0, 0, 0);
-
-        return calendar.getTime();
-    }
-
     public ScheduleModel getEventModel() {
         return eventModel;
-    }
-
-    private Calendar today() {
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DATE), 0, 0, 0);
-
-        return calendar;
-    }
-
-    private Date previousDay8Pm() {
-        Calendar t = (Calendar) today().clone();
-        t.set(Calendar.AM_PM, Calendar.PM);
-        t.set(Calendar.DATE, t.get(Calendar.DATE) - 1);
-        t.set(Calendar.HOUR, 8);
-
-        return t.getTime();
-    }
-
-    private Date previousDay11Pm() {
-        Calendar t = (Calendar) today().clone();
-        t.set(Calendar.AM_PM, Calendar.PM);
-        t.set(Calendar.DATE, t.get(Calendar.DATE) - 1);
-        t.set(Calendar.HOUR, 11);
-
-        return t.getTime();
-    }
-
-    private Date today1Pm() {
-        Calendar t = (Calendar) today().clone();
-        t.set(Calendar.AM_PM, Calendar.PM);
-        t.set(Calendar.HOUR, 1);
-
-        return t.getTime();
-    }
-
-    private Date theDayAfter3Pm() {
-        Calendar t = (Calendar) today().clone();
-        t.set(Calendar.DATE, t.get(Calendar.DATE) + 2);
-        t.set(Calendar.AM_PM, Calendar.PM);
-        t.set(Calendar.HOUR, 3);
-
-        return t.getTime();
-    }
-
-    private Date today6Pm() {
-        Calendar t = (Calendar) today().clone();
-        t.set(Calendar.AM_PM, Calendar.PM);
-        t.set(Calendar.HOUR, 6);
-
-        return t.getTime();
-    }
-
-    private Date nextDay9Am() {
-        Calendar t = (Calendar) today().clone();
-        t.set(Calendar.AM_PM, Calendar.AM);
-        t.set(Calendar.DATE, t.get(Calendar.DATE) + 1);
-        t.set(Calendar.HOUR, 9);
-
-        return t.getTime();
-    }
-
-    private Date nextDay11Am() {
-        Calendar t = (Calendar) today().clone();
-        t.set(Calendar.AM_PM, Calendar.AM);
-        t.set(Calendar.DATE, t.get(Calendar.DATE) + 1);
-        t.set(Calendar.HOUR, 11);
-
-        return t.getTime();
-    }
-
-    private Date fourDaysLater3pm() {
-        Calendar t = (Calendar) today().clone();
-        t.set(Calendar.AM_PM, Calendar.PM);
-        t.set(Calendar.DATE, t.get(Calendar.DATE) + 4);
-        t.set(Calendar.HOUR, 3);
-
-        return t.getTime();
     }
 
     public ScheduleEvent getEvent() {
@@ -210,43 +115,60 @@ public class CourseSchedulingView implements Serializable {
             eventModel.updateEvent(event);
         }
         else {
-            List<ScheduleEvent> events = new ArrayList<ScheduleEvent>();
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            Calendar c = Calendar.getInstance();
-            c.setTime(event.getStartDate());
-            try {
-                Date beg = sdf.parse(BEGINING_OF_SCHOOL);
-                Date end = sdf.parse(END_OF_SCHOOL);
-                while(c.getTime().compareTo(beg) >= 0) {
-                    Date newStartDate = c.getTime();
-                    c.add(Calendar.HOUR_OF_DAY, 2);
-                    Date newEndDate = c.getTime();
-                    DefaultScheduleEvent backwardRecurrentEvent = new DefaultScheduleEvent(event.getTitle(), newStartDate, newEndDate);
-                    events.add(backwardRecurrentEvent);
-                    c.setTime(newStartDate);
-                    c.add(Calendar.DAY_OF_YEAR, -7);
-                }
-                c.setTime(event.getStartDate());
-                c.add(Calendar.DAY_OF_YEAR, 7);
-                while(c.getTime().compareTo(end) <= 0) {
-                    Date newStartDate = c.getTime();
-                    c.add(Calendar.HOUR_OF_DAY, 2);
-                    Date newEndDate = c.getTime();
-                    DefaultScheduleEvent forwardRecurrentEvent = new DefaultScheduleEvent(event.getTitle(), newStartDate, newEndDate);
-                    events.add(forwardRecurrentEvent);
-                    c.setTime(newStartDate);
-                    c.add(Calendar.DAY_OF_YEAR, 7);
-                }
-                for (ScheduleEvent ev: events) {
-                    eventModel.addEvent(ev);
-                }
-
-            } catch (ParseException e) {
-                e.printStackTrace();
+            List<ScheduleEvent> events = getAllRecurrentEvents(event);
+            for (ScheduleEvent ev: events) {
+                eventModel.addEvent(ev);
             }
         }
         courseService.setTime(event.getTitle(), event.getStartDate());
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Course scheduled", "Course scheduled");
+        addMessage(message);
         event = new DefaultScheduleEvent();
+    }
+
+    List<ScheduleEvent> getAllRecurrentEvents(ScheduleEvent event) {
+        List<ScheduleEvent> events = new ArrayList<ScheduleEvent>();
+        DefaultScheduleEvent recurringEvent;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar c = Calendar.getInstance();
+        c.setTime(event.getStartDate());
+        Date newStartTime;
+        Date newEndTime;
+
+        try {
+            Date beg = sdf.parse(BEGINNING_OF_SCHOOL);
+            Date end = sdf.parse(END_OF_SCHOOL);
+            while(c.getTime().compareTo(beg) >= 0) {
+                newStartTime = c.getTime();
+                newEndTime = getEndTime(c, newStartTime, 2);
+                recurringEvent = new DefaultScheduleEvent(event.getTitle(), newStartTime, newEndTime);
+                events.add(recurringEvent);
+                setupNewRecurringEvent(c, newStartTime, -7);
+            }
+            setupNewRecurringEvent(c, event.getStartDate(), 7);
+            while(c.getTime().compareTo(end) <= 0) {
+                newStartTime = c.getTime();
+                newEndTime = getEndTime(c, newStartTime, 2);
+                recurringEvent = new DefaultScheduleEvent(event.getTitle(), newStartTime, newEndTime);
+                events.add(recurringEvent);
+                setupNewRecurringEvent(c, newStartTime, 7);
+            }
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return events;
+    }
+
+    private Date getEndTime(Calendar c, Date newStartTime, int amount) {
+        c.setTime(newStartTime);
+        c.add(Calendar.HOUR_OF_DAY, amount);
+        return c.getTime();
+    }
+
+    private void setupNewRecurringEvent(Calendar c, Date newStartTime, int amount) {
+        c.setTime(newStartTime);
+        c.add(Calendar.DAY_OF_YEAR, amount);
     }
 
     public void onEventSelect(SelectEvent selectEvent) {
@@ -255,18 +177,6 @@ public class CourseSchedulingView implements Serializable {
 
     public void onDateSelect(SelectEvent selectEvent) {
         event = new DefaultScheduleEvent("", (Date) selectEvent.getObject(), (Date) selectEvent.getObject());
-    }
-
-    public void onEventMove(ScheduleEntryMoveEvent event) {
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Event moved", "Day delta:" + event.getDayDelta() + ", Minute delta:" + event.getMinuteDelta());
-
-        addMessage(message);
-    }
-
-    public void onEventResize(ScheduleEntryResizeEvent event) {
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Event resized", "Day delta:" + event.getDayDelta() + ", Minute delta:" + event.getMinuteDelta());
-
-        addMessage(message);
     }
 
     private void addMessage(FacesMessage message) {

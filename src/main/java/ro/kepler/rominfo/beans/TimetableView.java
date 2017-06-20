@@ -6,6 +6,7 @@ package ro.kepler.rominfo.beans;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
@@ -17,6 +18,7 @@ import javax.faces.context.FacesContext;
 
 import org.primefaces.model.DefaultScheduleEvent;
 import org.primefaces.model.DefaultScheduleModel;
+import org.primefaces.model.ScheduleEvent;
 import org.primefaces.model.ScheduleModel;
 import ro.kepler.rominfo.dto.CourseDto;
 import ro.kepler.rominfo.model.Course;
@@ -27,14 +29,18 @@ import ro.kepler.rominfo.service.UserService;
 @ViewScoped
 public class TimetableView implements Serializable {
 
-    @ManagedProperty("#{courseService}")
-    private CourseService courseService;
-
     @ManagedProperty("#{userService}")
     private UserService userService;
 
     @ManagedProperty("#{loginView}")
     private LoginView loginView;
+
+    @ManagedProperty("#{courseSchedulingView}")
+    private CourseSchedulingView courseSchedulingView;
+
+    public void setCourseSchedulingView(CourseSchedulingView courseSchedulingView) {
+        this.courseSchedulingView = courseSchedulingView;
+    }
 
     private boolean rendered = true;
 
@@ -59,43 +65,31 @@ public class TimetableView implements Serializable {
         this.loginView = loginView;
     }
 
-    public void setCourseService(CourseService courseService) {
-        this.courseService = courseService;
-    }
 
     private ScheduleModel eventModel;
 
-    private List<CourseDto> getAllCoursesWithDates() {
-
-        List<Course> myCourses = courseService.getAllCoursesWithDates();
-        List<CourseDto> courses = new ArrayList<CourseDto>();
-
-        for (Course currentCourse : myCourses) {
-            CourseDto courseDto = new CourseDto();
-            courseDto.setCourseName(currentCourse.getCourseName());
-            courseDto.setStartTime(currentCourse.getStartTime());
-            courseDto.setEndTime(currentCourse.getEndTime());
-            courses.add(courseDto);
-        }
-        return courses;
-    }
 
     @PostConstruct
     public void init() {
         eventModel = new DefaultScheduleModel();
         boolean timetableUnderConstruction = false;
-        for (CourseDto course : getAllCoursesWithDates()) {
-            if (course.getStartTime() != null && course.getEndTime() != null) {
-                eventModel.addEvent(new DefaultScheduleEvent(course.getCourseName(), course.getStartTime(), course.getEndTime()));
-            }
-            else {
+        for (CourseDto course : courseSchedulingView.getAllCoursesWithDates()) {
+            if (course.getStartTime() == null) {
                 timetableUnderConstruction = true;
-                break;
             }
-
         }
-        if(timetableUnderConstruction) {
+
+        if (timetableUnderConstruction) {
             rendered = false;
+        } else {
+            for (CourseDto course : courseSchedulingView.getAllCoursesWithDates()) {
+                DefaultScheduleEvent newEvent = new DefaultScheduleEvent(course.getCourseName(), course.getStartTime(), course.getEndTime());
+                newEvent.setEditable(false);
+                for (ScheduleEvent ev : courseSchedulingView.getAllRecurrentEvents(newEvent)) {
+                    eventModel.addEvent(ev);
+                }
+            }
+            rendered = true;
         }
     }
 

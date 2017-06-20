@@ -33,8 +33,7 @@
 
             <h:panelGrid columnClasses="value">
                 <h3 style="margin-top: 0">Timetable</h3>
-                <h:graphicImage rendered="#{not timetableView.rendered}" value="/resources/images/oops.jpg" />
-                <h:outputText rendered="#{not timetableView.rendered}" value="The timetable is under construction!" />
+                <h:graphicImage rendered="#{not timetableView.rendered}" value="/resources/images/under-construction-logo.gif" />
                 <p:schedule id="schedule" rendered="#{timetableView.rendered}" value="#{timetableView.eventModel}" widgetVar="myschedule" timeZone="GMT+3"/>
             </h:panelGrid>
         </h:form>

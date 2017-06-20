@@ -8,7 +8,7 @@ import java.util.List;
  * Created by Dragos on 15.05.2017.
  */
 public class Student {
-    private int studentId;
+    private long studentId;
     private int yearOfStudy;
     private String specialization;
 
@@ -18,11 +18,11 @@ public class Student {
         return courses;
     }
 
-    public int getStudentId() {
+    public long getStudentId() {
         return studentId;
     }
 
-    public void setStudentId(int studentId) {
+    public void setStudentId(long studentId) {
         this.studentId = studentId;
     }
 
