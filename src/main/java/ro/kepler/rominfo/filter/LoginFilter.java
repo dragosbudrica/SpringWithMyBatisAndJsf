@@ -9,7 +9,9 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import ro.kepler.rominfo.beans.LoginView;
 import ro.kepler.rominfo.model.User;
+
 import java.io.IOException;
+import java.util.*;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -27,6 +29,28 @@ public class LoginFilter implements Filter {
 
     private static final String LOGIN_PAGE = "/login.xhtml";
     private static final String UNAUTHORIZED = "/accessDenied.xhtml";
+
+    private static Map<String, ArrayList<String>> authorizations = setAuthorizations();
+
+    private static Map<String, ArrayList<String>> setAuthorizations() {
+        Map<String, ArrayList<String>> authorizations = new HashMap<>();
+        ArrayList<String> studentPages = new ArrayList<String>();
+        studentPages.add("studentCourses");
+        studentPages.add("allCourses");
+        studentPages.add("timetable");
+        studentPages.add("courseDetails");
+
+        ArrayList<String> professorPages = new ArrayList<String>();
+        professorPages.add("professorCourses");
+        professorPages.add("addNewCourse");
+        professorPages.add("timetable");
+        professorPages.add("courseDetails");
+
+        authorizations.put("Student", studentPages);
+        authorizations.put("Professor", professorPages);
+
+        return authorizations;
+    }
 
     @Override
     public void doFilter(ServletRequest servletRequest,
@@ -48,13 +72,8 @@ public class LoginFilter implements Filter {
                 String pageRequested = ((HttpServletRequest) servletRequest).getRequestURL().toString();
                 LOGGER.info(user.getRole());
                 LOGGER.info(pageRequested);
-                if (user.getRole().equals("Student") && (pageRequested.contains("professorCourses") ||
-                        pageRequested.contains("register") || pageRequested.contains("addNewCourse") || pageRequested.contains("courseScheduling"))) {
-                    httpServletResponse.sendRedirect(
-                            httpServletRequest.getContextPath()
-                                    + UNAUTHORIZED);
-                } else if (user.getRole().equals("Professor") && (pageRequested.contains("myCourses") ||
-                        pageRequested.contains("register") || pageRequested.contains("allCourses") || pageRequested.contains("courseScheduling"))) {
+
+                if (!isAuthorized(user, pageRequested)) {
                     httpServletResponse.sendRedirect(
                             httpServletRequest.getContextPath()
                                     + UNAUTHORIZED);
@@ -84,5 +103,24 @@ public class LoginFilter implements Filter {
     @Override
     public void destroy() {
         // close resources
+    }
+
+    private boolean isAuthorized(User user, String pageRequested) {
+        boolean authorized = false;
+
+        outer:
+        for (Map.Entry<String, ArrayList<String>> entry : authorizations.entrySet()) {
+            String role = entry.getKey();
+            ArrayList<String> pages = entry.getValue();
+
+            for (String page : pages) {
+                if (role.equals(user.getRole()) && pageRequested.contains(page)) {
+                    authorized = true;
+                    break outer;
+                }
+            }
+        }
+
+        return authorized;
     }
 }

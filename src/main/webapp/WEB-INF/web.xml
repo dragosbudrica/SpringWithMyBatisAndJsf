@@ -14,12 +14,10 @@
     <param-value>.xhtml</param-value>
   </context-param>
 
-
   <filter>
     <filter-name>login</filter-name>
     <filter-class>ro.kepler.rominfo.filter.LoginFilter</filter-class>
   </filter>
-
   <filter-mapping>
     <filter-name>login</filter-name>
     <url-pattern>/secured/*</url-pattern>
@@ -52,4 +50,6 @@
     <servlet-name>Faces Servlet</servlet-name>
     <url-pattern>*.xhtml</url-pattern>
   </servlet-mapping>
+
+
 </web-app>

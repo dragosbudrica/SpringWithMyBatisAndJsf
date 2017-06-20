@@ -23,10 +23,10 @@ public interface UserMapper {
     void addUser(User user);
 
     @Transactional
-    void addStudent(@Param("userId") int userId);
+    void addStudent(@Param("userId") long userId);
 
     @Transactional
-    void addProfessor(@Param("userId") int userId);
+    void addProfessor(@Param("userId") long userId);
 
     User findByEmail(@Param("email") String email);
 

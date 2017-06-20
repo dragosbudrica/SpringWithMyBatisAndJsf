@@ -1,0 +1,68 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/templates/ui-template.xhtml">
+    <ui:define name="title">
+        <title>Course Details</title>
+    </ui:define>
+    <ui:define name="menu">
+        <h:form>
+            <p:outputPanel id="menuPanel" layout="block">
+                <p:menu autoSubmenuDisplay="true"
+                        style="width:213px;height:483px;border:none;font-size:small;padding:0px;"
+                        ajax="false" type="sliding" backLabel="#{msg['menu.back']}">
+                    <p:submenu label="Pages" icon="ui-icon ui-icon-refresh">
+                        <p:menuitem>
+                            <h:commandLink rendered="#{lectureView.isProfessor()}" action="/secured/professorCourses.xhtml?faces-redirect=true"
+                                           value="My Courses"/>
+                            <h:commandLink rendered="#{not lectureView.isProfessor()}" action="/secured/studentCourses.xhtml?faces-redirect=true"
+                                           value="My Courses"/>
+                        </p:menuitem>
+                        <p:menuitem>
+                            <h:commandLink action="/secured/timetable.xhtml?faces-redirect=true" value="Timetable"/>
+                        </p:menuitem>
+                        <p:menuitem>
+                            <h:commandLink rendered="#{lectureView.isProfessor()}" action="/secured/addNewCourse.xhtml?faces-redirect=true"
+                                           value="Add New Course"/>
+                            <h:commandLink rendered="#{not lectureView.isProfessor()}" action="/secured/allCourses.xhtml?faces-redirect=true"
+                                           value="All Courses"/>
+                        </p:menuitem>
+                    </p:submenu>
+                </p:menu>
+            </p:outputPanel>
+        </h:form>
+    </ui:define>
+    <f:metadata>
+        <f:viewParam name="courseName" value="#{lectureView.courseName}"/>
+    </f:metadata>
+    <ui:define name="content">
+        <h:form id="form" enctype="multipart/form-data">
+            <p:outputLabel value="This is not your course" rendered="#{lectureView.isProfessor() and not lectureView.isMyCourse()}" />
+            <p:dataTable value="#{lectureView.lectures}" var="lectureDto" rowIndexVar="rowIndex" rendered="#{(lectureView.isProfessor() and lectureView.isMyCourse()) or not lectureView.isProfessor()}">
+                <f:facet name="header">
+                    #{param['courseName']}
+                </f:facet>
+                <p:column>
+                    <f:facet name="header">
+                        Lecture
+                    </f:facet>
+                    #{lectureDto.lectureName}
+                    <f:facet name="footer">
+                    </f:facet>
+                </p:column>
+                <p:column headerText="PDF">
+                    <p:growl id="msgs" showDetail="true"/>
+                    <p:fileUpload rendered="#{lectureView.isProfessor()}" fileUploadListener="#{lectureView.upload}" mode="advanced"
+                                  dragDropSupport="false"
+                                  update="messages" fileLimit="1" allowTypes="/(\.|\/)(pdf)$/" />
+                    <p:growl id="messages" showDetail="true"/>
+                    <p:commandButton rendered="#{not lectureView.isProfessor() and (lectureDto.file != null)}" ajax="false" value="Download" onclick="PrimeFaces.monitorDownload(start, stop);" icon="ui-icon-arrowthick-1-s">
+                        <p:fileDownload value="#{lectureView.downloadPDF(lectureDto.lectureName)}" />
+                    </p:commandButton>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </ui:define>
+</ui:composition>

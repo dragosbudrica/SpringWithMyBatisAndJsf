@@ -15,10 +15,7 @@
                         ajax="false" type="sliding" backLabel="#{msg['menu.back']}">
                     <p:submenu label="Pages" icon="ui-icon ui-icon-refresh">
                         <p:menuitem>
-                            <h:commandLink action="/secured/professorCourses.xhtml?faces-redirect=true" value="My Courses"/>
-                        </p:menuitem>
-                        <p:menuitem>
-                            <h:commandLink action="/secured/page2.xhtml?faces-redirect=true" value="Page2"/>
+                            <h:commandLink action="/secured/register.xhtml?faces-redirect=true" value="Create New Account"/>
                         </p:menuitem>
                     </p:submenu>
                 </p:menu>
@@ -35,39 +32,28 @@
 
                     <p:ajax event="dateSelect" listener="#{courseSchedulingView.onDateSelect}" update="eventDetails" oncomplete="PF('eventDialog').show();" />
                     <p:ajax event="eventSelect" listener="#{courseSchedulingView.onEventSelect}" update="eventDetails" oncomplete="PF('eventDialog').show();" />
-                    <p:ajax event="eventMove" listener="#{courseSchedulingView.onEventMove}" update="messages" />
-                    <p:ajax event="eventResize" listener="#{courseSchedulingView.onEventResize}" update="messages" />
-
                 </p:schedule>
             </h:panelGrid>
 
             <p:dialog widgetVar="eventDialog" header="Course Details" showEffect="clip" hideEffect="clip">
                 <h:panelGrid id="eventDetails" columns="2">
-                    <p:outputLabel for="title" value="Course Name:" />
+                    <p:outputLabel for="title" value="Course Name:"/>
                     <p:selectOneMenu id="title" value="#{courseSchedulingView.event.title}" style="width:150px">
-                        <f:selectItems value="#{courseSchedulingView.getProfessorCourseTitles(loginView.email)}" />
+                        <f:selectItems value="#{courseSchedulingView.getAllCourseTitles()}"/>
                     </p:selectOneMenu>
 
-                    <p:outputLabel for="from" value="From:" />
-                    <p:calendar id="from" value="#{courseSchedulingView.event.startDate}" timeZone="GMT+3" pattern="dd/MM/yyyy HH:mm"/>
-
-                    <p:outputLabel for="to" value="To:" />
-                    <p:calendar id="to" value="#{courseSchedulingView.event.endDate}" timeZone="GMT+3" pattern="dd/MM/yyyy HH:mm"/>
-
-                    <p:outputLabel for="allDay" value="All Day:" />
-                    <h:selectBooleanCheckbox id="allDay" value="#{courseSchedulingView.event.allDay}" />
-
-                    <p:commandButton type="reset" value="Reset" />
+                    <p:outputLabel for="from" value="From:"/>
+                    <p:calendar id="from" value="#{courseSchedulingView.event.startDate}" timeZone="GMT+3"
+                                pattern="dd/MM/yyyy HH:mm">
+                        <f:validator validatorId="dateValidator"/>
+                    </p:calendar>
+                    <p:commandButton type="reset" value="Reset"/>
                     <p:commandButton id="addButton" value="Save" actionListener="#{courseSchedulingView.addEvent}"
-                                     oncomplete="PF('eventDialog').hide(); PF('myschedule').update();">
-                            <p:confirm header="Confirmation" message="Are you sure you want to schedule this course at that time?" icon="ui-icon-alert" />
+                                     onsuccess="PF('myschedule').update();" update="eventDetails">
                     </p:commandButton>
+                    <p:message for="from" style="color:red"/>
                 </h:panelGrid>
             </p:dialog>
-            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-                <p:commandButton value="Yes" type="button" oncomplete="" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-            </p:confirmDialog>
         </h:form>
         <style type="text/css">
             .value {

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ro.kepler.rominfo.mappers.UserMapper;
+import ro.kepler.rominfo.model.Course;
 import ro.kepler.rominfo.model.Professor;
 import ro.kepler.rominfo.model.Student;
 import ro.kepler.rominfo.model.User;
@@ -51,4 +52,5 @@ public class UserService {
     }
 
     public Professor findProfessor(String email) { return userMapper.findProfessorByEmail(email); }
+
 }

@@ -38,12 +38,20 @@
                     </p:inputText>
                     <p:message for="courseName" display="icon"/>
 
-                    <p:outputLabel for="category" value="Category:"/>
-                    <p:inputText id="category" value="#{courseView.category}"
-                                 required="true" label="Category">
-                        <f:validateLength minimum="3"/>
-                    </p:inputText>
+                    <p:outputLabel for="category" value="Category:" />
+                    <p:selectOneMenu id="category" value="#{courseView.category}" style="width:125px" required="true" label="Category">
+                        <f:selectItem itemLabel="Software" itemValue="Software" />
+                        <f:selectItem itemLabel="Hardware" itemValue="Hardware" />
+                    </p:selectOneMenu>
                     <p:message for="category" display="icon"/>
+
+                    <p:outputLabel for="numberOfLectures" value="Number of lectures: " />
+                    <p:spinner id="numberOfLectures" value="#{courseView.numberOfLectures}" min="3" max="12" />
+                    <p:message for="numberOfLectures" display="icon"/>
+
+                    <p:outputLabel for="description" value="Description:"/>
+                    <p:inputTextarea id="description" required="true" value="#{courseView.description}" rows="5" cols="22" counter="display" maxlength="250" counterTemplate="{0} characters remaining." autoResize="false" />
+                    <h:outputText id="display" />
                 </h:panelGrid>
                 <p:commandButton value="Add Course" update="panel messages"
                                  action="#{courseView.addCourse}"/>
