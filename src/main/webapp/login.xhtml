@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui"
@@ -8,36 +9,33 @@
 <h:head>
     <title>Login</title>
     <f:metadata>
-        <f:viewAction action="#{loginView.loggedInForward()}" />
+        <f:viewAction action="#{loginView.loggedInForward()}"/>
     </f:metadata>
 </h:head>
 
 <h:body>
-
     <h:form>
-        <p:messages id="messages" showDetail="false" />
-
+        <p:messages id="messages" showDetail="false"/>
         <p:panel id="panel" header="Login">
-
             <h:panelGrid columns="3" cellpadding="5">
-                <p:outputLabel for="email" value="Email:" />
+                <p:outputLabel for="email" value="Email:"/>
                 <p:inputText id="email" value="#{loginView.email}"
                              required="true" label="Email">
-                    <f:validateLength minimum="3" />
+                    <f:validateLength minimum="3"/>
                 </p:inputText>
-                <p:message for="email" display="icon" />
+                <p:message for="email" display="icon"/>
 
-                <p:outputLabel for="password" value="Password:" />
+                <p:outputLabel for="password" value="Password:"/>
                 <p:password id="password"
                             value="#{loginView.password}" required="true"
                             label="Password">
-                    <f:validateLength minimum="3" />
+                    <f:validateLength minimum="3"/>
                 </p:password>
-                <p:message for="password" display="icon" />
+                <p:message for="password" display="icon"/>
             </h:panelGrid>
 
             <p:commandButton value="Login" update="panel messages"
-                             action="#{loginView.login}" />
+                             action="#{loginView.login}"/>
         </p:panel>
     </h:form>
 </h:body>

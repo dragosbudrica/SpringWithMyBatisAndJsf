@@ -12,6 +12,7 @@ import java.util.List;
 
 @Repository
 public interface CourseMapper {
+
     Course getCourseByCode(int courseCode);
     List<Course> getAllCourses();
     List<Course> getStudentCourses(@Param("studentId") long studentId);

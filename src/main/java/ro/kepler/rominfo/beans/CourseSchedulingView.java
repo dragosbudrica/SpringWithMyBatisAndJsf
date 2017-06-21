@@ -33,7 +33,7 @@ public class CourseSchedulingView implements Serializable {
     private CourseService courseService;
 
     private static final String BEGINNING_OF_SCHOOL = "2016-10-01";
-    private static final String END_OF_SCHOOL = "2017-06-30";
+    private static final String END_OF_SCHOOL = "2017-07-01";
 
     public void setCourseService(CourseService courseService) {
         this.courseService = courseService;
@@ -138,7 +138,7 @@ public class CourseSchedulingView implements Serializable {
         try {
             Date beg = sdf.parse(BEGINNING_OF_SCHOOL);
             Date end = sdf.parse(END_OF_SCHOOL);
-            while(c.getTime().compareTo(beg) >= 0) {
+            while(c.getTime().compareTo(beg) > 0) {
                 newStartTime = c.getTime();
                 newEndTime = getEndTime(c, newStartTime, 2);
                 recurringEvent = new DefaultScheduleEvent(event.getTitle(), newStartTime, newEndTime);
@@ -146,7 +146,7 @@ public class CourseSchedulingView implements Serializable {
                 setupNewRecurringEvent(c, newStartTime, -7);
             }
             setupNewRecurringEvent(c, event.getStartDate(), 7);
-            while(c.getTime().compareTo(end) <= 0) {
+            while(c.getTime().compareTo(end) < 0) {
                 newStartTime = c.getTime();
                 newEndTime = getEndTime(c, newStartTime, 2);
                 recurringEvent = new DefaultScheduleEvent(event.getTitle(), newStartTime, newEndTime);
