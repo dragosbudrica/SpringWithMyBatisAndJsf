@@ -34,6 +34,10 @@ public class LoginFilter implements Filter {
 
     private static Map<String, ArrayList<String>> setAuthorizations() {
         Map<String, ArrayList<String>> authorizations = new HashMap<>();
+        ArrayList<String> adminPages = new ArrayList<String>();
+        adminPages.add("courseScheduling");
+        adminPages.add("register");
+
         ArrayList<String> studentPages = new ArrayList<String>();
         studentPages.add("studentCourses");
         studentPages.add("allCourses");
@@ -46,8 +50,9 @@ public class LoginFilter implements Filter {
         professorPages.add("timetable");
         professorPages.add("courseDetails");
 
-        authorizations.put("Student", studentPages);
+        authorizations.put("Admin", adminPages);
         authorizations.put("Professor", professorPages);
+        authorizations.put("Student", studentPages);
 
         return authorizations;
     }

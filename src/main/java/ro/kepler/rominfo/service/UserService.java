@@ -53,4 +53,7 @@ public class UserService {
 
     public Professor findProfessor(String email) { return userMapper.findProfessorByEmail(email); }
 
+    public boolean checkCredentials(User user, String email, String password) {
+        return (user.getEmail().equals(email) && user.getPassword().equals(password));
+    }
 }

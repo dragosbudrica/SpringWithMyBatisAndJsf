@@ -47,29 +47,38 @@ public class LoginView implements Serializable {
 
     /**
      * Method that checks login
+     *
      * @return
      */
     public String login() {
         User user = userService.findUser(email);
         if (user != null) {
-            ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
-            Map<String, Object> sessionMap = externalContext.getSessionMap();
-            sessionMap.put("loginView", this);
-            if(user.getEmail().equals("admin")) {
-                return REGISTER_REDIRECT;
-            }
-            else if(user.getRole().equals("Professor")) {
-                return PROFESSOR_COURSES_REDIRECT;
-            }
-                else {
+            if (userService.checkCredentials(user, email, password)) {
+                ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+                Map<String, Object> sessionMap = externalContext.getSessionMap();
+                sessionMap.put("loginView", this);
+                if (user.getEmail().equals("admin")) {
+                    return REGISTER_REDIRECT;
+                } else if (user.getRole().equals("Professor")) {
+                    return PROFESSOR_COURSES_REDIRECT;
+                } else {
                     return ALL_COURSES_REDIRECT;
+                }
+            }
+            else {
+                LOGGER.info("login failed for " + email);
+                FacesContext.getCurrentInstance().addMessage(null,
+                        new FacesMessage(FacesMessage.SEVERITY_WARN,
+                                "Wrong password!",
+                                "Wrong password!"));
+                return null;
             }
         } else {
             LOGGER.info("login failed for " + email);
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_WARN,
-                            "Login failed",
-                            "Invalid or unknown credentials."));
+                            "That user does not exists!",
+                            "That user does not exists!"));
             return null;
         }
     }
@@ -79,7 +88,6 @@ public class LoginView implements Serializable {
         LOGGER.debug("invalidating session for " + email);
         FacesContext.getCurrentInstance().getExternalContext()
                 .invalidateSession();
-        LOGGER.info("register successful for " + email);
 
         email = null;
         password = null;
@@ -94,12 +102,10 @@ public class LoginView implements Serializable {
     public String loggedInForward() {
         if (isLoggedIn() && FacesContext.getCurrentInstance().getExternalContext().isUserInRole("student")) {
             return ALL_COURSES_REDIRECT;
-        }
-        else  if (isLoggedIn() && FacesContext.getCurrentInstance().getExternalContext().isUserInRole("professor")) {
+        } else if (isLoggedIn() && FacesContext.getCurrentInstance().getExternalContext().isUserInRole("professor")) {
             return PROFESSOR_COURSES_REDIRECT;
-        }
-        else
-        return null;
+        } else
+            return null;
     }
 
     public String getEmail() {
