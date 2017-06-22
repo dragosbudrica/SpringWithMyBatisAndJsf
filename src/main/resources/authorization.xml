@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<authorizations>
+    <role id="Admin">
+        <pages>
+            <page>courseScheduling</page>
+            <page>register</page>
+        </pages>
+    </role>
+    <role id="Professor">
+        <pages>
+            <page>professorCourses</page>
+            <page>addNewCourse</page>
+            <page>timetable</page>
+            <page>courseDetails</page>
+        </pages>
+    </role>
+    <role id="Student">
+        <pages>
+            <page>studentCourses</page>
+            <page>allCourses</page>
+            <page>timetable</page>
+            <page>courseDetails</page>
+        </pages>
+    </role>
+</authorizations>

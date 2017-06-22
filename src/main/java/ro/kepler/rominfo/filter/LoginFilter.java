@@ -3,16 +3,13 @@ package ro.kepler.rominfo.filter;
 /**
  * Created by Dragos on 17.05.2017.
  */
-
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import ro.kepler.rominfo.beans.LoginView;
 import ro.kepler.rominfo.model.User;
-
+import ro.kepler.rominfo.utils.Authorization;
 import java.io.IOException;
 import java.util.*;
-
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -30,32 +27,7 @@ public class LoginFilter implements Filter {
     private static final String LOGIN_PAGE = "/login.xhtml";
     private static final String UNAUTHORIZED = "/accessDenied.xhtml";
 
-    private static Map<String, ArrayList<String>> authorizations = setAuthorizations();
-
-    private static Map<String, ArrayList<String>> setAuthorizations() {
-        Map<String, ArrayList<String>> authorizations = new HashMap<>();
-        ArrayList<String> adminPages = new ArrayList<String>();
-        adminPages.add("courseScheduling");
-        adminPages.add("register");
-
-        ArrayList<String> studentPages = new ArrayList<String>();
-        studentPages.add("studentCourses");
-        studentPages.add("allCourses");
-        studentPages.add("timetable");
-        studentPages.add("courseDetails");
-
-        ArrayList<String> professorPages = new ArrayList<String>();
-        professorPages.add("professorCourses");
-        professorPages.add("addNewCourse");
-        professorPages.add("timetable");
-        professorPages.add("courseDetails");
-
-        authorizations.put("Admin", adminPages);
-        authorizations.put("Professor", professorPages);
-        authorizations.put("Student", studentPages);
-
-        return authorizations;
-    }
+    private static Map<String, ArrayList<String>> rights = Authorization.getRights();
 
     @Override
     public void doFilter(ServletRequest servletRequest,
@@ -114,7 +86,7 @@ public class LoginFilter implements Filter {
         boolean authorized = false;
 
         outer:
-        for (Map.Entry<String, ArrayList<String>> entry : authorizations.entrySet()) {
+        for (Map.Entry<String, ArrayList<String>> entry : rights.entrySet()) {
             String role = entry.getKey();
             ArrayList<String> pages = entry.getValue();
 
@@ -125,7 +97,6 @@ public class LoginFilter implements Filter {
                 }
             }
         }
-
         return authorized;
     }
 }
